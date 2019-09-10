@@ -17,10 +17,10 @@ const mutations = {
 
 };
 const actions = {
-   addNewCoeff({commit},{name,value}){
+   addNewCoeff(context,{name,value}){
         axios.post('http://api.srvrdev.ru/api/setting-coefficient',{
             name:name,value:value
-        }).then(res=>{console.log(res.data);commit('addCoeff',res.data)});
+        }).then(() => context.dispatch('loadTable',{commitName:'saveCoeffTable'}));
    },
     deleteCoeff({commit},id){
        axios.delete('http://api.srvrdev.ru/api/setting-coefficient/'+id).then(res=>console.log(res));
