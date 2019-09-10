@@ -3,23 +3,22 @@
 
     <Popup v-if="addCoeffDialog" v-on:close="closeAddCoeff" :width="'40%'">
         <template v-slot:inner>
-            <Card :header="false">
+            <Card :header="false" style="border-radius: 6px;">
                 <template v-slot:content>
-                    <div style="padding: 10px">Добавление коэффициента</div>
+                    <div style="padding: 15px 0 20px;">Добавление коэффициента</div>
                     <div class="inputs-group">
-                        <input type="text" name="id" placeholder="ID коэффициента...">
-                        <input type="text" name="name" placeholder="Название коэффициента...">
-                        <input type="text" name="value" placeholder="Значение коэффициента...">
+<!--                        <input type="text" name="id" placeholder="ID коэффициента..." v-model="coeff.id">-->
+                        <input type="text" name="name" placeholder="Название коэффициента..." v-model="coeff.name">
+                        <input type="text" name="value" placeholder="Значение коэффициента..." v-model="coeff.value">
                     </div>
+                    <div @click="addNewCoeff()">Сохранить</div>
                 </template>
             </Card>
         </template>
     </Popup>
 
-
-
         <div style="display:flex;justify-content: space-between">
-            <Card style="flex: 1;margin-right: 20px">
+            <Card style="flex: 1;margin-right: 20px;border-radius: 6px">
                 <template v-slot:header>
                     <p style="color: white">Справочник входных параметров</p>
                     <img class="header-img-btn" src="./../../public/add-to-list.png" @click="addCoeffDialog=true">
@@ -30,13 +29,15 @@
                     <div class="table_wrapper">
                         <div class="table-header">
                             <div style="flex: 1">Код ID</div>
-                            <div style="flex: 4">Название</div>
+                            <div style="flex: 3">Название</div>
+                            <div style="flex: 1">Значение</div>
                         </div>
                         <hr style="opacity: .2;margin-block-end: 0;"/>
                         <div class="table-body">
                             <div class="table-row" v-for="(row,i) in inputParams" :key="i">
                                 <div style="flex: 1">{{row.id}}</div>
-                                <div style="flex: 4">{{row.name}}</div>
+                                <div style="flex: 3">{{row.name}}</div>
+                                <div style="flex: 1">{{row.value}}</div>
                             </div>
                         </div>
                     </div>
@@ -50,19 +51,8 @@
                 </template>
 
                 <template v-slot:content>
-                    <div class="table_wrapper">
-                        <div class="table-header">
-                            <div style="flex: 1">Код ID</div>
-                            <div style="flex: 4">Название</div>
-                        </div>
-                        <hr style="opacity: .2;margin-block-end: 0;"/>
-                        <div class="table-body">
-                            <div class="table-row" v-for="(row,i) in inputParams" :key="i">
-                                <div style="flex: 1">{{row.id}}</div>
-                                <div style="flex: 4">{{row.name}}</div>
-                            </div>
-                        </div>
-                    </div>
+                    <Table :headers="coeffTable.headers" :data="coeffTable.data" @deleteCoeff="deleteCoeff"></Table>
+<!--                    <Table :headers="tableData.headers" :data="tableData.data"></Table>-->
                 </template>
             </Card>
         </div>
@@ -72,27 +62,57 @@
 
 <script>
     import Card from "../components/ui/Card";
-    import Popup from '../components/ui/Popup'
+    import Popup from '../components/ui/Popup';
+    import Table from '../components/ui/Table';
+    import {mapActions, mapState} from 'vuex';
+
+    import axios from 'axios';
 
     export default {
         name: "InputParams",
         components: {
             Card,
-            Popup
+            Popup,
+            Table
         },
         data(){
             return{
                 addCoeffDialog:false,
                 inputParams:[
-                    {id:1,name:'Коммерческий'},
-                    {id:1,name:'Премиум'},
-                ]
+                    {id:1,name:'Коммерческий',value:1.25},
+                    {id:1,name:'Премиум',value:1.5},
+                ],
+                coeff:{
+                    // id:'',
+                    name:'',
+                    value:''
+                }
             }
+        },
+        computed:{
+            // tableData(){
+            //     window.table = this.$store.state.inputParams.coeffTable;
+            //     return this.$store.state.inputParams.coeffTable;
+            // }
+
+            ...mapState({
+                coeffTable: state => state.inputParams.coeffTable,
+            })
         },
         methods:{
             closeAddCoeff(){
                 this.addCoeffDialog = false;
+            },
+            addNewCoeff(){
+                this.$store.dispatch('inputParams/addNewCoeff',this.coeff);
+                this.addCoeffDialog = false;
+            },
+            deleteCoeff(id){
+                this.$store.dispatch('inputParams/deleteCoeff',id);
             }
+        },
+        mounted() {
+            this.$store.dispatch('inputParams/loadTable',{commitName:'saveCoeffTable'});
         }
     }
 </script>
@@ -111,8 +131,8 @@
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
     .header-img-btn{
-        width: 18px;
-        height: 18px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         padding: 7px;
         cursor: pointer;

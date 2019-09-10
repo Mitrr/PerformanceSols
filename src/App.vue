@@ -41,4 +41,17 @@ export default {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
   }
+  *{
+    box-sizing: border-box;
+  }
+  input{
+    border: none;
+  }
+
+.caption-text{
+  color: #999;
+}
+.normal-text{
+  color: #495057;
+}
 </style>

@@ -13,9 +13,14 @@ export default new Router({
             component:()=> import('./pages/InputParams'),
         },
         {
-            path: '/',
-            name: 'home',
-            component:()=> import('./pages/InputParams'),
+            path: '/works',
+            name: 'works',
+            component:()=> import('./pages/WorksHandbook'),
         },
+        {
+            path:'/add-works',
+            name:'add-works',
+            component:() => import('./pages/AddWork')
+        }
     ]
 })

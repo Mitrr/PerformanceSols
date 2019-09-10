@@ -19,6 +19,10 @@
             header:{
                 type:Boolean,
                 default:true
+            },
+            footer:{
+                type: Boolean,
+                default: true
             }
         }
     }
@@ -38,7 +42,7 @@
         margin: -20px 15px 0;
         border-radius: 3px;
         padding: 15px;
-        width: 90%;
+        width: 96%;
         margin: 0 auto;
         position: relative;
         top: -21px;
@@ -46,12 +50,14 @@
         align-items: center;
         background-color: #39a9f4;
         justify-content: space-between;
+        min-height: 65px;
     }
     .card-content{
-        padding: 0 10px;
+        padding: 0 20px 20px;
     }
     .card-footer{
-        min-height: 20px;
+        min-height: 2px;
     }
+
 
 </style>

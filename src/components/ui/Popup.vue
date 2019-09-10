@@ -48,6 +48,7 @@
     }
     .popup-content_wrapper{
         margin: 0 auto;
+        border-radius: 6px;
     }
 
 </style>
