@@ -16,7 +16,8 @@
                  @click="$emit('edit',row)"
             >
                 <div v-for="(cell,i) in row" :key="i"
-                    :style="cell.style"
+                     :style="cell.style"
+                     :data-velue="cell.value"
                 >
                     {{cell.value}}
                 </div>
@@ -59,6 +60,9 @@
             }
         },
         methods:{
+            edit(rowID){
+
+            }
         }
     }
 </script>

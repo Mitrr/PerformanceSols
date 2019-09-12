@@ -22,8 +22,15 @@ const actions = {
             name:name,value:value
         }).then(() => context.dispatch('loadTable',{commitName:'saveCoeffTable'}));
    },
-    deleteCoeff({commit},id){
-       axios.delete('http://api.srvrdev.ru/api/setting-coefficient/'+id).then(res=>console.log(res));
+    deleteCoeff(context,id){
+       axios.delete('http://api.srvrdev.ru/api/setting-coefficient/'+id).then(() => {
+           context.dispatch('loadTable',{commitName:'saveCoeffTable'})
+       });
+    },
+    editCoeff(context,coeff){
+       axios.put('http://api.srvrdev.ru/api/setting-coefficient/'+coeff.id,coeff).then( () => {
+           context.dispatch('loadTable',{commitName:'saveCoeffTable'})
+       })
     },
 
    async loadTable(context,{commitName}){

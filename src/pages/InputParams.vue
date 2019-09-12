@@ -17,11 +17,29 @@
         </template>
     </Popup>
 
+
+        <popup v-if="editPopup" v-on:close="editPopup=false" :width="'50%'">
+            <template v-slot:inner>
+                <Card :header="false" style="border-radius: 6px;">
+                    <template v-slot:content>
+                        <div style="padding: 15px 0 20px;">Редактирование коэффициента</div>
+                        <div class="inputs-group">
+                            {{editData}}
+                            <br/>
+                            <input type="text" name="name" placeholder="Название коэффициента..." v-model="editData.name">
+                            <input type="text" name="value" placeholder="Значение коэффициента..." v-model="editData.value">
+                        </div>
+                        <div @click="editCoeff()">Сохранить</div>
+                    </template>
+                </Card>
+            </template>
+        </popup>
+
         <div style="display:flex;justify-content: space-between">
             <Card style="flex: 1;margin-right: 20px;border-radius: 6px">
                 <template v-slot:header>
                     <p style="color: white">Справочник входных параметров</p>
-                    <img class="header-img-btn" src="./../../public/add-to-list.png" @click="addCoeffDialog=true">
+                    <img class="header-img-btn" src="./../../public/add-to-list.png">
                 </template>
 
                 <template v-slot:content>
@@ -47,11 +65,14 @@
             <Card style="flex: 1">
                 <template v-slot:header>
                     <p style="color: white">Справочник входных параметров</p>
-                    <img class="header-img-btn" src="./../../public/add-to-list.png">
+                    <img class="header-img-btn" src="./../../public/add-to-list.png"
+                         @click="addCoeffDialog=true">
                 </template>
 
                 <template v-slot:content>
-                    <Table :headers="coeffTable.headers" :data="coeffTable.data" @deleteCoeff="deleteCoeff"></Table>
+                    <Table :headers="coeffTable.headers" :data="coeffTable.data" @deleteCoeff="deleteCoeff"
+                    @edit="editCoeffHandler"
+                    ></Table>
 <!--                    <Table :headers="tableData.headers" :data="tableData.data"></Table>-->
                 </template>
             </Card>
@@ -77,7 +98,13 @@
         },
         data(){
             return{
+                editPopup:false,
                 addCoeffDialog:false,
+                editData:{
+                    id:'',
+                    value:'',
+                    name:'',
+                },
                 inputParams:[
                     {id:1,name:'Коммерческий',value:1.25},
                     {id:1,name:'Премиум',value:1.5},
@@ -109,6 +136,15 @@
             },
             deleteCoeff(id){
                 this.$store.dispatch('inputParams/deleteCoeff',id);
+            },
+            editCoeffHandler(row){
+                this.editData.id = row[0].value;
+                this.editData.name = row[1].value;
+                this.editData.value = row[2].value;
+                this.editPopup = true;
+            },
+            editCoeff(){
+                this.$store.dispatch('inputParams/editCoeff',this.editData).then( () => this.editPopup = false);
             }
         },
         mounted() {
