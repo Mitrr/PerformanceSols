@@ -8,8 +8,8 @@
                 <div class="split-blocks_container">
 
                     <div style="flex:1;border-right: 1px solid rgba(0,0,0,0.1)">
-                        <ul>
-                            <tree-item class="item" :item="treeData" @materials="showMaterials"></tree-item>
+                        <ul v-for="(group,i) in groups" :key="i">
+                            <tree-item class="item" :item="group" @materials="showMaterials"></tree-item>
                         </ul>
                     </div>
 
@@ -109,6 +109,11 @@
                 // ]
             }
         },
+        computed:{
+            groups(){
+                return this.$store.state.worksHandbook.treeData;
+            }
+        },
         methods:{
 
             selectSection(materials){
@@ -127,6 +132,9 @@
                 console.log(data);
                 this.activeBlockMaterials = data===undefined?[{name:'Здесь нет материалов'}]:data;
             }
+        },
+        mounted() {
+            this.$store.dispatch('worksHandbook/loadTreeData');
         }
     }
 </script>

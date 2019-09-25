@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import inputParams from './input-params';
+import worksHandbook from './works-handbook'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
-        inputParams
+        inputParams,
+        worksHandbook
     },
     state:{
         a:100,

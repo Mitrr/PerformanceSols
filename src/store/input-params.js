@@ -4,6 +4,14 @@ const state = () => ({
     coeffTable:{
         headers:[],
         data:[]
+    },
+    paramsTable:{
+        headers:[],
+        data:[]
+    },
+    unitsTable:{
+        headers:[],
+        data:[]
     }
 });
 const mutations = {
@@ -13,6 +21,14 @@ const mutations = {
     },
     addCoeff(state,paylaod){
         state.coeffTable.data.push(paylaod);
+    },
+    saveParamsTable(state,payload){
+        state.paramsTable.data = payload.data;
+        state.paramsTable.headers = payload.headers;
+    },
+    saveUnitsTable(state,payload){
+        state.unitsTable.headers = payload.headers;
+        state.unitsTable.data = payload.data;
     }
 
 };
@@ -20,20 +36,49 @@ const actions = {
    addNewCoeff(context,{name,value}){
         axios.post('http://api.srvrdev.ru/api/setting-coefficient',{
             name:name,value:value
-        }).then(() => context.dispatch('loadTable',{commitName:'saveCoeffTable'}));
+        }).then(() => context.dispatch('loadTable',{
+            commitName:'saveCoeffTable',
+            url:'http://api.srvrdev.ru/api/setting-coefficient'
+        }));
    },
     deleteCoeff(context,id){
        axios.delete('http://api.srvrdev.ru/api/setting-coefficient/'+id).then(() => {
-           context.dispatch('loadTable',{commitName:'saveCoeffTable'})
+           context.dispatch('loadTable',{
+               commitName:'saveCoeffTable',
+               url:'http://api.srvrdev.ru/api/setting-coefficient'})
        });
     },
     editCoeff(context,coeff){
        axios.put('http://api.srvrdev.ru/api/setting-coefficient/'+coeff.id,coeff).then( () => {
-           context.dispatch('loadTable',{commitName:'saveCoeffTable'})
+           context.dispatch('loadTable',{
+               commitName:'saveCoeffTable',
+               url:'http://api.srvrdev.ru/api/setting-coefficient'
+           })
        })
     },
+    deleteParam(context,id){
+       axios.delete('http://api.srvrdev.ru/api/income-parameters/'+id).then( () => {
+           context.dispatch('loadTable',{
+               commitName:'saveParamsTable',
+               url:'http://api.srvrdev.ru/api/income-parameters'
+           })
+       })
+    },
+    addNewParam(context,{unit_id,name}){
+       axios.post('http://api.srvrdev.ru/api/income-parameters',{unit_id:unit_id,name:name}).then(() => context.dispatch('loadTable',{
+           commitName:'saveParamsTable',
+           url:'http://api.srvrdev.ru/api/income-parameters'
+       }));
+    },
+    addNewUnit(context,{name}){
+        axios.post('http://api.srvrdev.ru/api/settings-unit-measurement',{name:name})
+            .then(() => context.dispatch('loadTable',{
+            commitName:'saveUnitsTable',
+            url:'http://api.srvrdev.ru/api/settings-unit-measurement'
+        }));
+    },
 
-   async loadTable(context,{commitName}){
+   async loadTable(context,{url,commitName}){
         const cellsWidth = {
             "text": null,
             "list":null
@@ -53,13 +98,12 @@ const actions = {
 
         var handleRow = (column, item) => {
 
-
             var value = item[column.data_key] || '',
                 type = column.type,
                 // width = cellsWidth[type],
-                val_style = item[column.data_key_style] || '',
+                style = item[column.data_key_style] || '',
 
-                cell = { value, type, val_style };
+                cell = { value, type, style };
 
             return handleCell(cell);
 
@@ -74,7 +118,7 @@ const actions = {
             return {
                 name: column.name,
                 // width: cellsWidth[column.type],
-                // style: column.style_header,
+                style: column.header_style,
                 type: column.type,
             }
         };
@@ -82,11 +126,11 @@ const actions = {
        let data = [];
        let headers = [];
 
-       await axios.get('http://api.srvrdev.ru/api/setting-coefficient',{
+       await axios.get(url,{
            headers:{'Cache-Control':'no-cache'},
            withCredentials:true
-       }).then(res=>res.data)
-           .then(json => {data=json.data;headers=json.meta.table_props});
+       }).then(res => res.data)
+           .then(json => { data=json.data; headers=json.meta.table_props });
 
 
         var resultData = [],
