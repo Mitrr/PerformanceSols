@@ -1,5 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div style="height: 100vh">
+
     <Popup v-if="addCoeffDialog" v-on:close="closeAddCoeff" :width="'40%'">
         <template v-slot:inner>
             <Card :header="false" style="border-radius: 6px;">
@@ -40,9 +41,18 @@
                             {{editData}}
                             <br/>
                             <input type="text" name="name" placeholder="Название коэффициента..." v-model="editData.name">
-                            <input type="text" name="value" placeholder="Значение коэффициента..." v-model="editData.value">
+                            <input v-if="editData.mode==='coeff'" type="text" name="value" placeholder="Значение коэффициента..." v-model="editData.value">
+
+                            <div v-else>
+                                <label for="Punits" style="padding-bottom: 5px">Единица измерения:</label>
+                                <select id="Punits" v-model="editData.value">
+                                    <option value="">--Выберите единицы измерения--</option>
+                                    <option v-for="(unit,i) in unitsTable.data" :key="i" :value="unit[0].value">{{unit[1].value}}</option>
+                                </select>
+                            </div>
+
                         </div>
-                        <div @click="editCoeff()">Сохранить</div>
+                        <div @click="editCoeff()" class="btn" style="margin-top: 20px">Сохранить</div>
                     </template>
                 </Card>
             </template>
@@ -58,7 +68,7 @@
 
                 <template v-slot:content>
                     <Table :headers="paramsTable.headers" :data="paramsTable.data" @deleteCoeff="deleteParam"
-                           @edit="editCoeffHandler"
+                           @edit="editCoeffHandler($event,'param')"
                     ></Table>
                 </template>
             </Card>
@@ -72,9 +82,8 @@
 
                 <template v-slot:content>
                     <Table :headers="coeffTable.headers" :data="coeffTable.data" @deleteCoeff="deleteCoeff"
-                    @edit="editCoeffHandler"
+                    @edit="editCoeffHandler($event,'coeff')"
                     ></Table>
-<!--                    <Table :headers="tableData.headers" :data="tableData.data"></Table>-->
                 </template>
             </Card>
         </div>
@@ -168,10 +177,11 @@
             deleteCoeff(id){
                 this.$store.dispatch('inputParams/deleteCoeff',id);
             },
-            editCoeffHandler(row){
+            editCoeffHandler(row,mode){
                 this.editData.id = row[0].value;
                 this.editData.name = row[1].value;
                 this.editData.value = row[2].value;
+                this.editData.mode = mode;
                 this.editPopup = true;
             },
             editCoeff(){
