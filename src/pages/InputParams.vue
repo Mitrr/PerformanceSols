@@ -41,9 +41,9 @@
                             {{editData}}
                             <br/>
                             <input type="text" name="name" placeholder="Название коэффициента..." v-model="editData.name">
-                            <input v-if="editData.mode==='coeff'" type="text" name="value" placeholder="Значение коэффициента..." v-model="editData.value">
+                            <input v-if="mode==='coeff'" type="text" name="value" placeholder="Значение коэффициента..." v-model="editData.value">
 
-                            <div v-else>
+                            <div v-else-if="mode==='param'">
                                 <label for="Punits" style="padding-bottom: 5px">Единица измерения:</label>
                                 <select id="Punits" v-model="editData.value">
                                     <option value="">--Выберите единицы измерения--</option>
@@ -52,7 +52,7 @@
                             </div>
 
                         </div>
-                        <div @click="editCoeff()" class="btn" style="margin-top: 20px">Сохранить</div>
+                        <div @click="editCoeff(mode)" class="btn" style="margin-top: 20px">Сохранить</div>
                     </template>
                 </Card>
             </template>
@@ -95,7 +95,8 @@
                          @click="openAddPopup('unit')">
                 </template>
                 <template v-slot:content>
-                    <Table :headers="unitsTable.headers" :data="unitsTable.data">
+                    <Table :headers="unitsTable.headers" :data="unitsTable.data" @deleteCoeff="deleteUnit"
+                    @edit="editUnit($event,'unit')">
 
                     </Table>
                 </template>
@@ -147,6 +148,7 @@
                 unit:{
                     name:''
                 },
+                mode:'',
                 activeAddPopupMode:'param',//param or coeff or units
             }
         },
@@ -174,22 +176,42 @@
                 this.addCoeffDialog = false;
 
             },
-            deleteCoeff(id){
-                this.$store.dispatch('inputParams/deleteCoeff',id);
-            },
+            // deleteCoeff(id){
+            //     this.$store.dispatch('inputParams/deleteCoeff',id);
+            // },
             editCoeffHandler(row,mode){
                 this.editData.id = row[0].value;
                 this.editData.name = row[1].value;
                 this.editData.value = row[2].value;
-                this.editData.mode = mode;
+                this.mode = mode;
                 this.editPopup = true;
             },
-            editCoeff(){
-                this.$store.dispatch('inputParams/editCoeff',this.editData).then( () => this.editPopup = false);
+            editUnit(row,mode){
+                this.editData.id = row[0].value;
+                this.editData.name = row[1].value;
+                this.mode = mode;
+                this.editPopup = true;
             },
-            deleteParam(id){
-                this.$store.dispatch('inputParams/deleteParam',id)
+            editCoeff(mode){
+                if (mode === 'coeff'){
+                    this.$store.dispatch('inputParams/editCoeff',this.editData).then( () => this.editPopup = false);
+                } else if (mode === 'param'){
+                    this.$store.dispatch('inputParams/editParam',this.editData).then( () => this.editPopup = false);
+                } else if (mode === 'unit'){
+                    this.$store.dispatch('inputParams/editUnit',this.editData).then( () => this.editPopup = false);
+                }
+
             },
+            // deleteParam(id){
+            //     this.$store.dispatch('inputParams/deleteParam',id)
+            // },
+
+            ...mapActions('inputParams',[
+                'deleteUnit',
+                'deleteParam',
+                'deleteCoeff',
+            ]),
+
             openAddPopup(mode){
                 this.activeAddPopupMode = mode;
                 this.addCoeffDialog=true;

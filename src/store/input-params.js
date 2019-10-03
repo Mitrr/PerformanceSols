@@ -70,6 +70,15 @@ const actions = {
            url:'http://api.srvrdev.ru/api/income-parameters'
        }));
     },
+    editParam(context,{value,id,name}){
+       axios.put('http://api.srvrdev.ru/api/income-parameters/'+id,{unit_id:value,id:id,name:name})
+           .then(() => {
+              context.dispatch('loadTable',{
+                  commitNmae:'saveParamsTable',
+                  url:'http://api.srvrdev.ru/api/income-parameters'
+              })
+           });
+    },
     addNewUnit(context,{name}){
         axios.post('http://api.srvrdev.ru/api/settings-unit-measurement',{name:name})
             .then(() => context.dispatch('loadTable',{
@@ -77,6 +86,27 @@ const actions = {
             url:'http://api.srvrdev.ru/api/settings-unit-measurement'
         }));
     },
+    deleteUnit(context,id){
+       axios.delete('http://api.srvrdev.ru/api/settings-unit-measurement/'+id).then(() => context.dispatch('loadTable',{
+           commitName:'saveUnitsTable',
+           url:'http://api.srvrdev.ru/api/settings-unit-measurement'
+       }));
+    },
+    editUnit(context,{id,name}){
+       axios.put('http://api.srvrdev.ru/api/settings-unit-measurement/'+id,{id:id,name:name})
+           .then(() => {
+               context.dispatch('loadTable',{
+               commitName:'saveUnitsTable',
+               url:'http://api.srvrdev.ru/api/settings-unit-measurement'
+               });
+
+                   context.dispatch('loadTable',{
+                       commitName:'saveParamsTable',
+                       url:'http://api.srvrdev.ru/api/income-parameters'
+                   })
+           });
+    },
+
 
    async loadTable(context,{url,commitName}){
         const cellsWidth = {
