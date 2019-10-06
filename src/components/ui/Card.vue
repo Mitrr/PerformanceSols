@@ -38,19 +38,22 @@
         box-shadow: 0 1px 15px 1px rgba(69,65,78,.08);
     }
     .header_wrapper{
-        box-shadow: 0 12px 20px -10px rgba(9, 145, 255, 0.2), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(9, 145, 255, 0.2);
-        margin: -20px 15px 0;
+        /*box-shadow: 0 12px 20px -10px rgba(9, 145, 255, 0.2), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(9, 145, 255, 0.2);*/
+        /*margin: -20px 15px 0;*/
         border-radius: 3px;
         padding: 15px;
         width: 96%;
         margin: 0 auto;
-        position: relative;
-        top: -21px;
+        /*position: relative;*/
+        /*top: -21px;*/
         display: flex;
         align-items: center;
-        background-color: #39a9f4;
+        /*background-color: #39a9f4;*/
         justify-content: space-between;
-        min-height: 65px;
+        /*min-height: 65px;*/
+        min-height: 40px;
+        color: #495057;
+        padding-bottom: 20px;
     }
     .card-content{
         padding: 0 20px 20px;

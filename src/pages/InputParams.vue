@@ -61,7 +61,7 @@
         <div style="display:flex;justify-content: space-between">
             <Card style="flex: 1;margin-right: 20px;border-radius: 6px">
                 <template v-slot:header>
-                    <p style="color: white">Справочник входных параметров</p>
+                    <p style="color: rgba(0,0,0,0.6);font-size: 0.9rem;font-weight: 600">Справочник входных параметров</p>
                     <img class="header-img-btn" src="./../../public/add-to-list.png"
                     @click="openAddPopup('param')">
                 </template>
