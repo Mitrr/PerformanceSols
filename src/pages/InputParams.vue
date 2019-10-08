@@ -61,7 +61,7 @@
         <div style="display:flex;justify-content: space-between">
             <Card style="flex: 1;margin-right: 20px;border-radius: 6px">
                 <template v-slot:header>
-                    <p style="color: rgba(0,0,0,0.6);font-size: 0.9rem;font-weight: 600">Справочник входных параметров</p>
+                    <p class="card-title">Справочник входных параметров</p>
                     <img class="header-img-btn" src="./../../public/add-to-list.png"
                     @click="openAddPopup('param')">
                 </template>
@@ -73,9 +73,9 @@
                 </template>
             </Card>
 
-            <Card style="flex: 1">
+            <Card style="flex: 1;border-radius: 6px">
                 <template v-slot:header>
-                    <p style="color: white">Справочник коэффициентов</p>
+                    <p class="card-title">Справочник коэффициентов</p>
                     <img class="header-img-btn" src="./../../public/add-to-list.png"
                          @click="openAddPopup('coeff')">
                 </template>
@@ -88,9 +88,9 @@
             </Card>
         </div>
         <div style="margin-top: 40px;width: 100%;display: flex">
-            <Card style="width: 50%">
+            <Card style="width: 50%;border-radius: 6px">
                 <template v-slot:header>
-                    <p style="color: white">Единицы измерения</p>
+                    <p class="card-title">Единицы измерения</p>
                     <img class="header-img-btn" src="./../../public/add-to-list.png"
                          @click="openAddPopup('unit')">
                 </template>
@@ -231,6 +231,8 @@
 </script>
 
 <style scoped>
+    @import '../assets/base.css';
+
     .btn{
         padding: 10px 15px;
         background-color: #dddddd;
