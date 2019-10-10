@@ -115,11 +115,10 @@
 
 <script>
     import Card from "../components/ui/Card";
-    import Popup from '../components/ui/Popup';
+    //import Popup from '../components/ui/Popup';
+    let Popup = () => import('../components/ui/Popup');
     import Table from '../components/ui/Table';
     import {mapActions, mapState} from 'vuex';
-
-    import axios from 'axios';
 
     export default {
         name: "InputParams",
@@ -269,11 +268,11 @@
         border-radius: 50%;
         padding: 7px;
         cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.1);
     }
     .header-img-btn:hover{
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: rgba(0, 0, 0, 0.26);
         transition: .4s ease-in-out;
-
     }
     .inputs-group{
         width: 100%;

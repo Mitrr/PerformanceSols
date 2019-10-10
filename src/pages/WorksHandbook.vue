@@ -1,8 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div style="min-height: 100vh" class="page-wrapper">
-        <Card :footer="false" style="height: 100%;min-height: 35vh">
+        <Card :footer="false" style="height: 100%;min-height: 35vh;border-radius: 6px">
             <template v-slot:header>
-                <p style="color: white">Справочник работ</p>
+                <p class="card-title">Справочник работ</p>
             </template>
             <template v-slot:content>
                 <div class="split-blocks_container">
@@ -140,6 +140,8 @@
 </script>
 
 <style scoped>
+    @import '../assets/base.css';
+
     .split-blocks_container{
         display: flex;
         flex-direction: row;
