@@ -7,12 +7,12 @@
 </template>
 
 <script>
-    import Card from './Card'
+    // import Card from './Card'
 
     export default {
         name: "Popup",
         components:{
-            Card,
+            // Card,
         },
         props:{
           width:{
@@ -35,7 +35,7 @@
 
 <style scoped>
     .fade{
-        position: absolute;
+        position: fixed;
         left: 0;
         top: 0;
         height: 100%;
@@ -45,10 +45,10 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        backdrop-filter: blur(2px);
     }
     .popup-content_wrapper{
         margin: 0 auto;
         border-radius: 6px;
     }
-
 </style>
