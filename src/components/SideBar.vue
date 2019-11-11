@@ -8,7 +8,7 @@
             <div class="list-group" v-for="(item,i) in listLinks" :key="i">
                 <div class="list-group_header">
                     <div class="list-item">
-                        {{item.name}}
+                        <router-link :to="item.url">{{item.name}}</router-link>
                     </div>
                 </div>
 <!--                <div v-for="(item,i) in listLinks" :key="i" class="list-item">-->
@@ -27,6 +27,7 @@
                 listLinks:[
                     {
                         name:'Справочники',
+                        url:'/',
                         subItems:[
                             {
                                 name:'Материалы',

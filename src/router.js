@@ -10,12 +10,12 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component:()=> import('./pages/InputParams'),
+            component:() => import('./pages/InputParams'),
         },
         {
             path: '/works',
             name: 'works',
-            component:()=> import('./pages/WorksHandbook'),
+            component:() => import('./pages/WorksHandbook'),
         },
         {
             path:'/add-works',

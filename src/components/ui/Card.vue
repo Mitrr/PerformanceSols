@@ -45,7 +45,7 @@
         /*margin: -20px 15px 0;*/
         border-radius: 3px;
         padding: 20px;
-        width: 96%;
+        width: 100%;
         /* margin: 0 auto; */
         /*position: relative;*/
         /*top: -21px;*/
