@@ -3,7 +3,7 @@
         <div class="main">
             <Card>
                 <template v-slot:header>
-                    <div style="color: black">Добавление работы</div>
+                    <div class="card-title">Добавление работы</div>
                 </template>
                 <template v-slot:content>
                     <div class="inputs-group">
@@ -38,7 +38,7 @@
             </Card>
             <Card>
                 <template v-slot:header>
-                    <div style="color: black">Входные параметры и формула</div>
+                    <div class="card-title">Входные параметры и формула</div>
                 </template>
                 <template v-slot:content>
                     <div @click="popUpFunc" class="enterV-button">
@@ -87,7 +87,7 @@
         /* min-height: 100vh; */
         display: flex;
         flex-direction: row;
-        
+
     }
     /* .main > Card {
         flex: 1;

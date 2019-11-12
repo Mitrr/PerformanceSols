@@ -1,16 +1,21 @@
 <template>
     <div class="navbar_wrapper">
         <div class="navbar_content">
-            <div>item</div>
-            <div>item</div>
-            <div>item</div>
+            <div class="page-header">{{title}}</div>
+            <div style="align-items: center" class="row-flex">
+                <div style="margin-right: 10px">ava</div>
+                <div>Директор магазина</div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "NavBar"
+        name: "NavBar",
+        props:{
+            title:String
+        }
     }
 </script>
 
@@ -31,7 +36,11 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        padding: 0 20px;
+        padding: 0 50px;
+    }
+    .page-header{
+        font-size: 2rem;
+        font-weight: 600;
     }
 
 </style>

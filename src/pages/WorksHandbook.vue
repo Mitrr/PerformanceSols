@@ -115,7 +115,6 @@
             }
         },
         methods:{
-
             selectSection(materials){
                 this.activeBlockMaterials =
                     materials===undefined?[{name:'В этом разделе нет материалов'}]:materials;
@@ -129,7 +128,6 @@
                     materials===undefined?[{name:'В этой работе нет материалов'}]:materials;
             },
             showMaterials(data){
-                console.log(data);
                 this.activeBlockMaterials = data===undefined?[{name:'Здесь нет материалов'}]:data;
             }
         },
@@ -140,7 +138,6 @@
 </script>
 
 <style scoped>
-    @import '../assets/base.css';
 
     .split-blocks_container{
         display: flex;

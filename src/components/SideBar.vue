@@ -7,13 +7,16 @@
         <div class="sidebar-content__container">
             <div class="list-group" v-for="(item,i) in listLinks" :key="i">
                 <div class="list-group_header">
-                    <div class="list-item">
-                        <router-link :to="item.url">{{item.name}}</router-link>
+                    <div class="list-item" @click="selectItem(item, i)">
+                        {{item.name}}
                     </div>
                 </div>
-<!--                <div v-for="(item,i) in listLinks" :key="i" class="list-item">-->
-<!--                    {{item.name}}-->
-<!--                </div>-->
+                <div v-if="activeMenuItemId === i && item.subItems">
+                    <div v-for="(subItem, j) in item.subItems" :key="j" class="list-item list-sub-item"
+                         @click="selectItem(subItem, i)">
+                        {{subItem.name}}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -24,39 +27,47 @@
         name: "SideBar",
         data(){
             return{
+                activeMenuItemId:'',
                 listLinks:[
                     {
                         name:'Справочники',
-                        url:'/',
+                        url:null,
+                        title:'',
                         subItems:[
                             {
-                                name:'Материалы',
-                                url:''
-                            },
-                            {
                                 name:'Входные параметры',
-                                url:''
+                                title:'Входные параметры',
+                                url:'/'
                             },
                             {
                                 name:'Работы',
-                                url:''
+                                title:'Справочник работ',
+                                url:'/works'
+                            },
+                            {
+                                name:'Материалы',
+                                title:'Справочник материалов',
+                                url:'/works'
                             },
                         ]
                     },
                     {
-                        name:'Проекты',
-                        subItems:[
-                            {
-                                name:'Список',
-                                url:''
-                            },
-                            {
-                                name:'Хуйня',
-                                url:''
-                            },
-                        ]
+                        name:'Добавление работы',
+                        title:'Добавление работы',
+                        url:'/add-works'
                     }
                 ]
+            }
+        },
+        methods:{
+            selectItem({title, url}, id){
+                this.activeMenuItemId = this.activeMenuItemId === id? '':id;
+
+                if (url !== null){
+                    this.$router.push({path:url});
+                    this.$emit('newRoute',title)
+                }
+
             }
         }
     }
@@ -134,6 +145,11 @@
     }
     .list-group_header:hover:before{
         transform: scaleX(1);
+    }
+    .list-sub-item{
+        padding-left: 40px;
+        margin-bottom: 10px;
+        cursor: pointer;
     }
 
 </style>

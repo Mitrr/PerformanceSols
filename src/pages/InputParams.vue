@@ -87,7 +87,7 @@
                 </template>
             </Card>
         </div>
-        <div style="margin-top: 40px;width: 100%;display: flex">
+        <div style="margin-top: 20px;width: 100%;display: flex">
             <Card style="width: 50%;border-radius: 6px">
                 <template v-slot:header>
                     <p class="card-title">Единицы измерения</p>
@@ -101,13 +101,6 @@
                     </Table>
                 </template>
             </Card>
-<!--            <div style="display: flex;flex-direction: row;height: 50px;background-color: #f3f3f3;border-radius: 30px;border: 1px solid #cbcbcb;align-items: center"-->
-<!--                :style="{width:units.length*100+'px'}"-->
-<!--            >-->
-<!--                <div class="unit-tab" v-for="unit in units" :key="unit.id">-->
-<!--                    <span style="display: block;width: 100%">{{unit.value}}</span>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
 
     </div>
@@ -115,7 +108,6 @@
 
 <script>
     import Card from "../components/ui/Card";
-    //import Popup from '../components/ui/Popup';
     let Popup = () => import('../components/ui/Popup');
     import Table from '../components/ui/Table';
     import {mapActions, mapState} from 'vuex';
@@ -152,11 +144,6 @@
             }
         },
         computed:{
-            // tableData(){
-            //     window.table = this.$store.state.inputParams.coeffTable;
-            //     return this.$store.state.inputParams.coeffTable;
-            // }
-
             ...mapState({
                 coeffTable: state => state.inputParams.coeffTable,
                 paramsTable: state => state.inputParams.paramsTable,
@@ -168,16 +155,13 @@
                 this.addCoeffDialog = false;
             },
             addNew(mode){
-                let [val,commit] = mode ==='coeff'?[this.coeff,'addNewCoeff'] :
+                let [val,commit] = mode ==='coeff'? [this.coeff,'addNewCoeff'] :
                                    mode ==='param'? [this.param,'addNewParam'] : [this.unit,'addNewUnit'];
 
                 this.$store.dispatch(`inputParams/${commit}`,val);
                 this.addCoeffDialog = false;
 
             },
-            // deleteCoeff(id){
-            //     this.$store.dispatch('inputParams/deleteCoeff',id);
-            // },
             editCoeffHandler(row,mode){
                 this.editData.id = row[0].value;
                 this.editData.name = row[1].value;
@@ -201,9 +185,6 @@
                 }
 
             },
-            // deleteParam(id){
-            //     this.$store.dispatch('inputParams/deleteParam',id)
-            // },
 
             ...mapActions('inputParams',[
                 'deleteUnit',
@@ -230,7 +211,6 @@
 </script>
 
 <style scoped>
-    @import '../assets/base.css';
 
     .btn{
         padding: 10px 15px;

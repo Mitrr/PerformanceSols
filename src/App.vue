@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <side-bar/>
-    <nav-bar></nav-bar>
+    <side-bar @newRoute="updatePageTitle"></side-bar>
+    <nav-bar :title="activeTitle"></nav-bar>
     <div class="content__container">
       <router-view/>
     </div>
@@ -9,20 +9,30 @@
 </template>
 
 <script>
-import NavBar from './components/NavBar'
-import SideBar from './components/SideBar'
+  import NavBar from './components/NavBar'
+  import SideBar from './components/SideBar'
 
-export default {
-  name: 'app',
-  components: {
-    NavBar,
-    SideBar
-  },
-  computed:{}
-}
+  export default {
+    name: 'app',
+    components: {
+      NavBar,
+      SideBar
+    },
+    data(){
+      return{
+        activeTitle:'Справочники'
+      }
+    },
+    methods:{
+      updatePageTitle(title){
+         this.activeTitle = title;
+      }
+    }
+  }
 </script>
 
 <style>
+  @import "assets/base-styles.css";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
