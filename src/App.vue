@@ -41,7 +41,7 @@
 }
   .content__container{
     margin-left: 250px;
-    padding: 40px 20px;
+    padding: 20px;
     background-color: #f3f6f9;
   }
   p {

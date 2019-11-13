@@ -44,7 +44,6 @@
         /*box-shadow: 0 12px 20px -10px rgba(9, 145, 255, 0.2), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(9, 145, 255, 0.2);*/
         /*margin: -20px 15px 0;*/
         border-radius: 3px;
-        padding: 20px;
         width: 100%;
         /* margin: 0 auto; */
         /*position: relative;*/
@@ -56,7 +55,7 @@
         /*min-height: 65px;*/
         min-height: 40px;
         color: #495057;
-        padding-bottom: 20px;
+        padding: 15px 20px 20px;
     }
     .card-content{
         padding: 0 20px 20px;

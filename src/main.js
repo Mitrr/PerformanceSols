@@ -2,11 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
-import axios from 'axios'
-// Vue.use(axios);
-//
-// Vue.$axios = axios;
-Vue.config.productionTip = false
+import Card from "./components/ui/Card";
+
+Vue.config.productionTip = false;
+Vue.component('Card',Card);
 
 new Vue({
   render: h => h(App),

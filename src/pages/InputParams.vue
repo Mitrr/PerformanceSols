@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div style="height: 100vh">
 
-    <Popup v-if="addCoeffDialog" v-on:close="closeAddCoeff" :width="'40%'">
+        <Popup v-if="addCoeffDialog" v-on:close="closeAddCoeff" :width="'40%'">
         <template v-slot:inner>
             <Card :header="false" style="border-radius: 6px;">
                 <template v-slot:content>
@@ -36,14 +36,15 @@
             <template v-slot:inner>
                 <Card :header="false" style="border-radius: 6px;">
                     <template v-slot:content>
-                        <div style="padding: 15px 0 20px;">Редактирование коэффициента</div>
+                        <div style="padding: 15px 0 20px;">Редактирование</div>
                         <div class="inputs-group">
                             {{editData}}
                             <br/>
                             <input type="text" name="name" placeholder="Название коэффициента..." v-model="editData.name">
-                            <input v-if="mode==='coeff'" type="text" name="value" placeholder="Значение коэффициента..." v-model="editData.value">
 
-                            <div v-else-if="mode==='param'">
+                            <input v-if="mode === 'coeff'" type="text" name="value" placeholder="Значение коэффициента..." v-model="editData.value">
+
+                            <div v-else-if="mode === 'param'">
                                 <label for="Punits" style="padding-bottom: 5px">Единица измерения:</label>
                                 <select id="Punits" v-model="editData.value">
                                     <option value="">--Выберите единицы измерения--</option>
@@ -97,7 +98,6 @@
                 <template v-slot:content>
                     <Table :headers="unitsTable.headers" :data="unitsTable.data" @deleteCoeff="deleteUnit"
                     @edit="editUnit($event,'unit')">
-
                     </Table>
                 </template>
             </Card>
@@ -107,15 +107,15 @@
 </template>
 
 <script>
-    import Card from "../components/ui/Card";
+    // import Card from "../components/ui/Card";
     let Popup = () => import('../components/ui/Popup');
-    import Table from '../components/ui/Table';
+    import Table from '../components/ui/WithDeleteButtonTable';
     import {mapActions, mapState} from 'vuex';
 
     export default {
         name: "InputParams",
         components: {
-            Card,
+            //Card,
             Popup,
             Table
         },
@@ -176,13 +176,29 @@
                 this.editPopup = true;
             },
             editCoeff(mode){
-                if (mode === 'coeff'){
-                    this.$store.dispatch('inputParams/editCoeff',this.editData).then( () => this.editPopup = false);
-                } else if (mode === 'param'){
-                    this.$store.dispatch('inputParams/editParam',this.editData).then( () => this.editPopup = false);
-                } else if (mode === 'unit'){
-                    this.$store.dispatch('inputParams/editUnit',this.editData).then( () => this.editPopup = false);
-                }
+                console.log(mode);
+
+                const modeHandler = {
+                    "coeff": () => {
+                        this.$store.dispatch('inputParams/editCoeff',this.editData).then( () => this.editPopup = false);
+                    },
+                    "param": () => {
+                        this.$store.dispatch('inputParams/editParam',this.editData).then( () => this.editPopup = false);
+                    },
+                    "unit":() => {
+                        this.$store.dispatch('inputParams/editUnit',this.editData).then( () => this.editPopup = false);
+                    }
+                };
+
+                modeHandler[mode]();
+
+                // if (mode === 'coeff'){
+                //     this.$store.dispatch('inputParams/editCoeff',this.editData).then( () => this.editPopup = false);
+                // } else if (mode === 'param'){
+                //     this.$store.dispatch('inputParams/editParam',this.editData).then( () => this.editPopup = false);
+                // } else if (mode === 'unit'){
+                //     this.$store.dispatch('inputParams/editUnit',this.editData).then( () => this.editPopup = false);
+                // }
 
             },
 

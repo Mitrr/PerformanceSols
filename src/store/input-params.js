@@ -30,7 +30,6 @@ const mutations = {
         state.unitsTable.headers = payload.headers;
         state.unitsTable.data = payload.data;
     }
-
 };
 const actions = {
    addNewCoeff(context,{name,value}){
@@ -71,10 +70,10 @@ const actions = {
        }));
     },
     editParam(context,{value,id,name}){
-       axios.put('http://api.srvrdev.ru/api/income-parameters/'+id,{unit_id:value,id:id,name:name})
+       axios.put('http://api.srvrdev.ru/api/income-parameters/'+id,{unit_id:value,id,name})
            .then(() => {
               context.dispatch('loadTable',{
-                  commitNmae:'saveParamsTable',
+                  commitName:'saveParamsTable',
                   url:'http://api.srvrdev.ru/api/income-parameters'
               })
            });

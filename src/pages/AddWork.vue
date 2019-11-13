@@ -18,7 +18,6 @@
                         </div>
                     </div>
 
-
                     <p>Коэффициент сегмента</p>
                     <div class="radio_container">
                         <div style="flex: 1">

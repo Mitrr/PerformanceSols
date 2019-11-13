@@ -26,8 +26,9 @@
         left: 0;
         height: 60px;
         z-index: 2;
-        box-shadow: 0 4px 15px 0 rgba(0,0,0,.09);
-        background-color: white;
+        /*box-shadow: 0 4px 15px 0 rgba(0,0,0,.09);*/
+        /*background-color: white;*/
+        background-color: #f3f6f9;
         padding-left: 250px;
     }
     .navbar_content{
