@@ -1,14 +1,11 @@
 <template>
     <li>
-        <div :class="{bold: isFolder}" @click="toggle"
-                @dblclick="makeFolder">
-
-            <span @click="$emit('materials', item.materials)">
+        <div :class="{bold: isFolder}" @click="toggle">
+            <span>
                 {{ item.name }}
             </span>
 
-            <span v-if="isFolder"
-                  >
+            <span v-if="isFolder">
                 [{{ isOpen ? '-' : '+' }}]
             </span>
         </div>
@@ -18,16 +15,14 @@
                     v-for="(child, index) in item.children"
                     :key="index"
                     :item="child"
-                    @materials="$emit('materials', $event)"
             ></tree-item>
-<!--            <li class="add" @click="$emit('add-item', item)">+</li>-->
         </ul>
     </li>
 </template>
 
 <script>
     export default {
-        name: "TreeItem",
+        name: "BasicTreeItem",
         props:{
             item:Object
         },
@@ -47,18 +42,6 @@
                     this.isOpen = !this.isOpen
                 }
             },
-            makeFolder: function (item) {
-                this.set(item, 'children', []);
-                this.addItem(item)
-            },
-            addItem: function (item) {
-                item.children.push({
-                    name: 'new stuff'
-                })
-            },
-            setMaterials:function (materials) {
-                console.log('pidaras');
-            }
         }
     }
 </script>

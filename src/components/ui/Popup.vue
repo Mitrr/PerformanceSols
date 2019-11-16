@@ -7,13 +7,9 @@
 </template>
 
 <script>
-    // import Card from './Card'
 
     export default {
         name: "Popup",
-        components:{
-            // Card,
-        },
         props:{
           width:{
               type:String,
@@ -23,7 +19,6 @@
               type:String,
               default: 'auto'
           }
-
         },
         methods:{
             close(){

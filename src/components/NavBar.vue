@@ -4,7 +4,7 @@
             <div class="page-header">{{title}}</div>
             <div style="align-items: center" class="row-flex">
                 <div style="margin-right: 10px">ava</div>
-                <div>Директор магазина</div>
+                <div>Ivan Semenovich</div>
             </div>
         </div>
     </div>
