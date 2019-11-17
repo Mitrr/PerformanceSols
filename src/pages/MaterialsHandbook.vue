@@ -21,27 +21,24 @@
             <div class="column-flex">
                 <card :footer="false" style="flex: 1">
                     <template v-slot:header>
-                        <p class="card-title">Материалы</p>
+                        <p class="card-title">
+                            <span>Материалы</span>
+                            <span class="active-blue-color">{{activeNodeSubtitle}}</span>
+                        </p>
                     </template>
                     <template v-slot:content>
-                        <Table v-if="activeMaterials.headers.length>0"
+                        <Table v-if="activeMaterials.data.length>0"
                                :headers="activeMaterials.headers" :data="activeMaterials.data">
 
                         </Table>
-<!--                        <div v-for="(material,i) in activeMaterials" :key="i">-->
-<!--                            <div v-if="activeMaterials.length>0">-->
-<!--                                <span>{{material.name}}</span>-->
-<!--                                <span v-if="material.price!==undefined">{{material.price}}₽</span>-->
-<!--                            </div>-->
-<!--                            <div v-else>-->
-<!--                                В этом разделе нет материалов-->
-<!--                            </div>-->
-<!--                        </div>-->
                     </template>
                 </card>
                 <card :footer="false" style="flex: 1">
                     <template v-slot:header>
-                        <p class="card-title">Работы</p>
+                        <p class="card-title">
+                            <span>Работы</span>
+                            <span class="active-blue-color">{{activeNodeSubtitle}}</span>
+                        </p>
                     </template>
                     <template v-slot:content>
                         <div>hello</div>
@@ -70,11 +67,11 @@
         },
         data(){
             return{
-                //activeBlockMaterials:[],
                 treeData:treeData,
                 parentId:'',
                 nodeName:'',
                 nodeDialog:false,
+                nodeSubtitle:''
             }
         },
         computed:{
@@ -82,36 +79,18 @@
                 groups: state => state.treeData,
                 activeMaterials: state => state.materialsTable,
             }),
-            // materials(){
-            //     return this.$store.state.worksHandbook.materials;
-            // }
-            // groups(){
-            //     return this.$store.state.worksHandbook.treeData;
-            // }
+            activeNodeSubtitle(){
+                return this.nodeSubtitle ? ' - '+ this.nodeSubtitle : '';
+            }
         },
         methods:{
-            // selectSection(materials){
-            //     this.activeBlockMaterials =
-            //         materials===undefined?[{name:'В этом разделе нет материалов'}]:materials;
-            // },
-            // selectSubsection(materials){
-            //     this.activeBlockMaterials =
-            //         materials===undefined?[{name:'В этом подразделе нет материалов'}]:materials;
-            // },
-            // selectWork(materials){
-            //     this.activeBlockMaterials =
-            //         materials===undefined?[{name:'В этой работе нет материалов'}]:materials;
-            // },
-            // showMaterials(id){
-            //     this.activeBlockMaterials = data === undefined?[{name:'Здесь нет материалов'}]:data;
-            // },
-
             ...mapActions('worksHandbook', [
                 'saveNode',
-                //'loadMaterials'
             ]),
 
-            loadMaterialsAndWorksTables(id){
+            loadMaterialsAndWorksTables({name,id}){
+                this.nodeSubtitle = name;
+
                 this.$store.dispatch('loadTable',{
                     url:`http://api.srvrdev.ru/api/materials?section_id=${id}`,
                     commitName:'worksHandbook/setMaterials'

@@ -107,7 +107,6 @@
 </template>
 
 <script>
-    // import Card from "../components/ui/Card";
     let Popup = () => import('../components/ui/Popup');
     import Table from '../components/ui/WithDeleteButtonTable';
     import {mapActions, mapState} from 'vuex';
@@ -115,7 +114,6 @@
     export default {
         name: "InputParams",
         components: {
-            //Card,
             Popup,
             Table
         },
@@ -148,7 +146,8 @@
                 coeffTable: state => state.inputParams.coeffTable,
                 paramsTable: state => state.inputParams.paramsTable,
                 unitsTable: state => state.inputParams.unitsTable,
-            })
+            }),
+
         },
         methods:{
             closeAddCoeff(){

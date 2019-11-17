@@ -18,3 +18,6 @@
     display: flex;
     flex-direction: column;
 }
+.active-blue-color{
+    color: #3367D6;
+}

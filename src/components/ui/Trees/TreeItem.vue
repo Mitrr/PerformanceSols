@@ -2,7 +2,7 @@
     <li v-if="item.name">
         <div :class="{bold: isFolder}" @click="toggle">
 
-            <span v-if="!showEdit" @click="$emit('materials', item.id)">
+            <span v-if="!showEdit" @click="$emit('materials', item)">
                 {{ item.name }}
             </span>
 

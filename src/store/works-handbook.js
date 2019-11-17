@@ -35,9 +35,9 @@ const actions = {
     editNode({commit},{id,name}){
         axios.put('http://api.srvrdev.ru/api/materials-sections/'+id,{id,name})
     },
-    loadMaterials({commit},id){
-        axios.get(`http://api.srvrdev.ru/api/materials?section_id=${id}`).then( res => commit('setMaterials',res.data));
-    }
+    // loadMaterials({commit},id){
+    //     axios.get(`http://api.srvrdev.ru/api/materials?section_id=${id}`).then( res => commit('setMaterials',res.data));
+    // }
 };
 
 export default {
