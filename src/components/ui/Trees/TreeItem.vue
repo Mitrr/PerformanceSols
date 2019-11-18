@@ -1,6 +1,6 @@
 <template>
     <li v-if="item.name">
-        <div :class="{bold: isFolder}" @click="toggle">
+        <div :class="{bold: isFolder}" @click="toggle" class="row-flex" style="align-items: center">
 
             <span v-if="!showEdit" @click="$emit('materials', item)">
                 {{ item.name }}
@@ -17,7 +17,9 @@
                 [{{ isOpen ? '-' : '+' }}]
             </span>
 
-            <span v-else @click="makeFolder" style="margin: 0 5px">Добавить</span>
+            <span v-else @click="makeFolder" style="margin: 0 5px">
+                <icon :icon="'add_circle_outline'"></icon>
+            </span>
 
             <span @click="deleteNode" style="margin: 0 5px">Удалить</span>
 
