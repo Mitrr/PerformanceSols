@@ -11,11 +11,7 @@ export default new Vuex.Store({
         inputParams,
         worksHandbook
     },
-    state:{
-        a:100,
-        b:200,
-        c:300
-    },
+    state:{},
     actions:{
         async loadTable(context,{url,commitName}){
             const cellsWidth = {

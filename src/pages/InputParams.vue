@@ -175,7 +175,6 @@
                 } else {
                     this.editData.value = row[2].value;
                 }
-                // this.editData.value = mode==='param'?  :row[2].value;
                 this.mode = mode;
                 this.editPopup = true;
             },
