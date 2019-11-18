@@ -213,14 +213,14 @@
             },
         },
         mounted() {
-            this.$store.dispatch('inputParams/loadTable',
-                {url:'http://api.srvrdev.ru/api/setting-coefficient',commitName:'saveCoeffTable'});
+            this.$store.dispatch('loadTable',
+                {url:'http://api.srvrdev.ru/api/setting-coefficient',commitName:'inputParams/saveCoeffTable'});
 
-            this.$store.dispatch('inputParams/loadTable',
-                {url:'http://api.srvrdev.ru/api/income-parameters',commitName:'saveParamsTable'});
+            this.$store.dispatch('loadTable',
+                {url:'http://api.srvrdev.ru/api/income-parameters',commitName:'inputParams/saveParamsTable'});
 
-            this.$store.dispatch('inputParams/loadTable',
-                {url:'http://api.srvrdev.ru/api/settings-unit-measurement',commitName:'saveUnitsTable'});
+            this.$store.dispatch('loadTable',
+                {url:'http://api.srvrdev.ru/api/settings-unit-measurement', commitName:'inputParams/saveUnitsTable'});
         }
     }
 </script>
