@@ -71,7 +71,7 @@ const actions = {
     },
     editParam(context,{value,id,name}){
        axios.put('http://api.srvrdev.ru/api/income-parameters/'+id,{unit_id:value,id,name})
-           .then(() => {
+           .then( () => {
               context.dispatch('loadTable',{
                   commitName:'saveParamsTable',
                   url:'http://api.srvrdev.ru/api/income-parameters'

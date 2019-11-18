@@ -15,7 +15,8 @@ const mutations = {
     setMaterials(state, payload){
         state.materialsTable.data = payload.data;
         state.materialsTable.headers = payload.headers;
-    }
+    },
+
 };
 
 const actions = {
@@ -35,9 +36,10 @@ const actions = {
     editNode({commit},{id,name}){
         axios.put('http://api.srvrdev.ru/api/materials-sections/'+id,{id,name})
     },
-    // loadMaterials({commit},id){
-    //     axios.get(`http://api.srvrdev.ru/api/materials?section_id=${id}`).then( res => commit('setMaterials',res.data));
-    // }
+    editMaterial({commit},payload){
+        commit('setMaterialItem',payload);
+        //axios.put(`http://api.srvrdev.ru/api/materials?section_id=${payload.id}`, payload);
+    }
 };
 
 export default {

@@ -9,7 +9,6 @@
             </div>
         </div>
 
-        <!--        <div class="header-divider"></div>-->
         <div class="table_body_wrapper" style="overflow:auto;height: 100%;">
             <div :class="['table_line',dividers?'':'no-divider']"
                  v-for="(row,j) in data" :key="j" :id="row[0].value"
@@ -17,7 +16,6 @@
             >
                 <div v-for="(cell,i) in row" :key="i"
                      :style="cell.style"
-                     :data-velue="cell.value"
                 >
                     {{cell.value}}
                 </div>

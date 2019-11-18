@@ -25,14 +25,20 @@
                             <span>Материалы</span>
                             <span class="active-blue-color">{{activeNodeSubtitle}}</span>
                         </p>
+                        <img class="header-img-btn" src="./../../public/add-to-list.png"
+                             @click="addMaterialDialog">
                     </template>
                     <template v-slot:content>
                         <Table v-if="activeMaterials.data.length>0"
-                               :headers="activeMaterials.headers" :data="activeMaterials.data">
+                               :headers="activeMaterials.headers" :data="activeMaterials.data"
+                               @edit="openEditMaterials($event)"
+                        >
 
                         </Table>
+                        <div v-else>В этом разделе нет материалов</div>
                     </template>
                 </card>
+
                 <card :footer="false" style="flex: 1">
                     <template v-slot:header>
                         <p class="card-title">
@@ -41,11 +47,23 @@
                         </p>
                     </template>
                     <template v-slot:content>
-                        <div>hello</div>
+                        <div v-if="true">hello</div>
+                        <div v-else>В этом разделе нет работ</div>
                     </template>
                 </card>
             </div>
         </div>
+
+
+        <popup v-if="editDialog" @close="editDialog = false">
+            <template v-slot:inner>
+                <card :header="false">
+                    <template v-slot:content>
+                        hi
+                    </template>
+                </card>
+            </template>
+        </popup>
 
     </div>
 </template>
@@ -54,24 +72,21 @@
     import TreeItem from '../components/ui/Trees/TreeItem';
     import {mapActions,mapState} from 'vuex';
 
-    var treeData = {
-        name: 'My Tree',
-    };
-
     export default {
         name: "MaterialsHandbook",
         components:{
             TreeItem,
-            //Popup: () => import('../components/ui/Popup'),
-            Table: () => import('../components/ui/Table')
+            Popup: () => import('../components/ui/Popup'),
+            Table: () => import('../components/ui/WithDeleteButtonTable')
         },
         data(){
             return{
-                treeData:treeData,
                 parentId:'',
                 nodeName:'',
                 nodeDialog:false,
-                nodeSubtitle:''
+                nodeSubtitle:'',
+                editDialog:false,
+                addMaterialDialog:false
             }
         },
         computed:{
@@ -114,6 +129,17 @@
                     }
                 })
             },
+            openEditMaterials(item){
+                let test = {
+                    id:1,
+                    section_id: 42,
+                    price: "832.50",
+                    measurement_id: "кг",
+                    coefficient_id: "Элитный",
+                };
+                //this.$store.dispatch('worksHandbook/editMaterial',test);
+                console.log(item)
+            }
         },
         mounted() {
             this.$store.dispatch('worksHandbook/loadTreeData');

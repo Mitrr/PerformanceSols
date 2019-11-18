@@ -21,3 +21,15 @@
 .active-blue-color{
     color: #3367D6;
 }
+.header-img-btn{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    padding: 7px;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.header-img-btn:hover{
+    background-color: rgba(0, 0, 0, 0.26);
+    transition: .4s ease-in-out;
+}

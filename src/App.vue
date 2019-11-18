@@ -20,7 +20,7 @@
     },
     data(){
       return{
-        activeTitle:'Справочники'
+        activeTitle:'Входные параметры'
       }
     },
     methods:{

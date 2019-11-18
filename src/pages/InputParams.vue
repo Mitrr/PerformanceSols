@@ -1,20 +1,24 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div style="height: 100vh">
 
-        <Popup v-if="addCoeffDialog" v-on:close="closeAddCoeff" :width="'40%'">
+        <Popup v-if="addCoeffDialog" v-on:close="closeAddCoeff" :width="'50%'">
         <template v-slot:inner>
-            <Card :header="false" style="border-radius: 6px;">
+            <Card :header="false">
                 <template v-slot:content>
                     <div style="padding: 15px 0 20px;">Добавление
                         {{activeAddPopupMode==='coeff'?'коэффициента':
                             activeAddPopupMode==='param'?'параметра':'единицы измерения'}}</div>
                     <div class="inputs-group">
 <!--                        <input type="text" name="id" placeholder="ID коэффициента..." v-model="coeff.id">-->
-                        <input v-if="activeAddPopupMode==='coeff'" type="text" name="name" placeholder="Название коэффициента..." v-model="coeff.name">
-                        <input v-else-if="activeAddPopupMode==='param'" type="text" name="name" placeholder="Название параметра..." v-model="param.name">
-                        <input v-else type="text" name="name" placeholder="Единица измерения..." v-model="unit.name">
+                        <input v-if="activeAddPopupMode==='coeff'" class="node-input"
+                               type="text" name="name" placeholder="Название коэффициента..." v-model="coeff.name">
+                        <input class="node-input"
+                                v-else-if="activeAddPopupMode==='param'" type="text" name="name" placeholder="Название параметра..." v-model="param.name">
+                        <input class="node-input"
+                                v-else type="text" name="name" placeholder="Единица измерения..." v-model="unit.name">
 
-                        <input v-if="activeAddPopupMode==='coeff'" type="text" name="value" placeholder="Значение коэффициента..." v-model="coeff.value">
+                        <input class="node-input"
+                                v-if="activeAddPopupMode==='coeff'" type="text" name="value" placeholder="Значение коэффициента..." v-model="coeff.value">
 
 
                         <label v-if="activeAddPopupMode==='param'" for="units" style="padding-bottom: 5px">Единицы измерения:</label>
@@ -25,24 +29,22 @@
 
                     </div>
                     <div @click="addNew(activeAddPopupMode)" class="btn" style="margin-top: 20px">Сохранить</div>
-<!--                    <div v-else @click="addNewParam()" class="btn" style="margin-top: 20px">Сохранить</div>-->
                 </template>
             </Card>
         </template>
     </Popup>
 
-
         <popup v-if="editPopup" v-on:close="editPopup=false" :width="'50%'">
             <template v-slot:inner>
-                <Card :header="false" style="border-radius: 6px;">
+                <Card :header="false">
                     <template v-slot:content>
                         <div style="padding: 15px 0 20px;">Редактирование</div>
                         <div class="inputs-group">
-                            {{editData}}
-                            <br/>
-                            <input type="text" name="name" placeholder="Название коэффициента..." v-model="editData.name">
+                            <input type="text" name="name" class="node-input"
+                                   placeholder="Название коэффициента..." v-model="editData.name">
 
-                            <input v-if="mode === 'coeff'" type="text" name="value" placeholder="Значение коэффициента..." v-model="editData.value">
+                            <input v-if="mode === 'coeff'" class="node-input"
+                                   type="text" name="value" placeholder="Значение коэффициента..." v-model="editData.value">
 
                             <div v-else-if="mode === 'param'">
                                 <label for="Punits" style="padding-bottom: 5px">Единица измерения:</label>
@@ -60,7 +62,7 @@
         </popup>
 
         <div style="display:flex;justify-content: space-between">
-            <Card style="flex: 1;margin-right: 20px;border-radius: 6px">
+            <Card style="flex: 1;margin-right: 20px">
                 <template v-slot:header>
                     <p class="card-title">Справочник входных параметров</p>
                     <img class="header-img-btn" src="./../../public/add-to-list.png"
@@ -74,7 +76,7 @@
                 </template>
             </Card>
 
-            <Card style="flex: 1;border-radius: 6px">
+            <Card style="flex: 1;">
                 <template v-slot:header>
                     <p class="card-title">Справочник коэффициентов</p>
                     <img class="header-img-btn" src="./../../public/add-to-list.png"
@@ -89,7 +91,7 @@
             </Card>
         </div>
         <div style="margin-top: 20px;width: 100%;display: flex">
-            <Card style="width: 50%;border-radius: 6px">
+            <Card style="width: 50%;">
                 <template v-slot:header>
                     <p class="card-title">Единицы измерения</p>
                     <img class="header-img-btn" src="./../../public/add-to-list.png"
@@ -138,7 +140,7 @@
                     name:''
                 },
                 mode:'',
-                activeAddPopupMode:'param',//param or coeff or units
+                activeAddPopupMode:'param',//param | coeff | units
             }
         },
         computed:{
@@ -164,7 +166,16 @@
             editCoeffHandler(row,mode){
                 this.editData.id = row[0].value;
                 this.editData.name = row[1].value;
-                this.editData.value = row[2].value;
+                if (mode === 'param'){
+                    let unitName = row[2].value;
+                    let units = this.unitsTable.data;
+
+                    this.editData.value = units.find( pair => pair[1].value === unitName)[0].value;
+
+                } else {
+                    this.editData.value = row[2].value;
+                }
+                // this.editData.value = mode==='param'?  :row[2].value;
                 this.mode = mode;
                 this.editPopup = true;
             },
@@ -175,8 +186,6 @@
                 this.editPopup = true;
             },
             editCoeff(mode){
-                console.log(mode);
-
                 const modeHandler = {
                     "coeff": () => {
                         this.$store.dispatch('inputParams/editCoeff',this.editData).then( () => this.editPopup = false);
@@ -190,15 +199,6 @@
                 };
 
                 modeHandler[mode]();
-
-                // if (mode === 'coeff'){
-                //     this.$store.dispatch('inputParams/editCoeff',this.editData).then( () => this.editPopup = false);
-                // } else if (mode === 'param'){
-                //     this.$store.dispatch('inputParams/editParam',this.editData).then( () => this.editPopup = false);
-                // } else if (mode === 'unit'){
-                //     this.$store.dispatch('inputParams/editUnit',this.editData).then( () => this.editPopup = false);
-                // }
-
             },
 
             ...mapActions('inputParams',[
@@ -257,18 +257,7 @@
     .table-row:not(:last-child){
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
-    .header-img-btn{
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        padding: 7px;
-        cursor: pointer;
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-    .header-img-btn:hover{
-        background-color: rgba(0, 0, 0, 0.26);
-        transition: .4s ease-in-out;
-    }
+
     .inputs-group{
         width: 100%;
         display: flex;

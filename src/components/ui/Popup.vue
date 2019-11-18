@@ -1,5 +1,5 @@
 <template>
-    <div class="fade" @click.self="close()">
+    <div class="fade" @click.self="$emit('close')">
         <div class="popup-content_wrapper" :style="{width: width,height: height}">
             <slot name="inner"></slot>
         </div>
@@ -20,11 +20,6 @@
               default: 'auto'
           }
         },
-        methods:{
-            close(){
-                this.$emit('close');
-            }
-        }
     }
 </script>
 
@@ -45,5 +40,11 @@
     .popup-content_wrapper{
         margin: 0 auto;
         border-radius: 6px;
+    }
+
+    @media only screen and (max-width: 600px)  {
+        .popup-content_wrapper{
+            width: 100%!important;
+        }
     }
 </style>
