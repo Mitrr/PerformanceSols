@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const state = () => ({
-    treeData:{},
+    treeData:[],
     materialsTable:{
         data:[],
         headers:[]
@@ -16,7 +16,9 @@ const mutations = {
         state.materialsTable.data = payload.data;
         state.materialsTable.headers = payload.headers;
     },
-
+    pushToTreeData(state, paylaod){
+        state.treeData.push(paylaod);
+    }
 };
 
 const actions = {
@@ -28,7 +30,12 @@ const actions = {
     },
     async saveNode({commit}, paylaod){
        let item = await axios.post('http://api.srvrdev.ru/api/materials-sections', paylaod).then(res => res.data);
-       return item ? item : false;
+       if (item.parent_id === null){
+           commit('pushToTreeData',item);
+       } else {
+           return item ? item : false;
+       }
+
     },
     deleteNode({commit}, {id}){
         axios.delete('http://api.srvrdev.ru/api/materials-sections/'+id)

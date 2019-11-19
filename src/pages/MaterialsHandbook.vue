@@ -4,6 +4,8 @@
             <Card :footer="false" style="height: 100%;min-height: 35vh;border-radius: 6px">
                 <template v-slot:header>
                     <p class="card-title">Справочник материалов</p>
+                    <img class="header-img-btn" src="./../../public/add-to-list.png"
+                         @click="addGroupInput = true">
                 </template>
                 <template v-slot:content>
                         <div>
@@ -13,6 +15,16 @@
                                            @make-folder="makeFolder"
                                            @delete-node="deleteNode"
                                 ></tree-item>
+                            </ul>
+                            <ul>
+                                <li v-if="addGroupInput">
+                                    <input class="node-input" type="text" name="name"
+                                           placeholder="Название раздела"
+                                           v-model.trim="newRootNode.name"
+                                           @keyup.enter="saveRootNode()"
+                                           @keyup.esc="addGroupInput = false"
+                                    >
+                                </li>
                             </ul>
                         </div>
                 </template>
@@ -86,7 +98,12 @@
                 nodeDialog:false,
                 nodeSubtitle:'',
                 editDialog:false,
-                addMaterialDialog:false
+                addMaterialDialog:false,
+                addGroupInput: false,
+                newRootNode:{
+                    name:'',
+                    parent_id:null
+                }
             }
         },
         computed:{
@@ -128,6 +145,13 @@
                         vm.$delete(item,key,'');
                     }
                 })
+            },
+            saveRootNode(){
+                if (this.newRootNode.name){
+                    this.$store.dispatch('worksHandbook/saveNode', this.newRootNode).then( () => {
+                        this.addGroupInput = false;
+                    });
+                }
             },
             openEditMaterials(item){
                 let test = {

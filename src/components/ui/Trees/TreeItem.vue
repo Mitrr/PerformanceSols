@@ -21,9 +21,13 @@
                 <icon :icon="'add_circle_outline'"></icon>
             </span>
 
-            <span @click="deleteNode" style="margin: 0 5px">Удалить</span>
+            <span @click="deleteNode" style="margin: 0 5px">
+                <icon :icon="'delete_outline'"></icon>
+            </span>
 
-            <span style="margin: 0 5px" @click="showEdit = true">Редактировать</span>
+            <span style="margin: 0 5px" @click="showEdit = true">
+                <icon :icon="'edit'"></icon>
+            </span>
         </div>
         <ul v-show="isOpen" v-if="isFolder">
             <tree-item
