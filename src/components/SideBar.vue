@@ -6,8 +6,8 @@
         </div>
         <div class="sidebar-content__container">
             <div class="list-group" v-for="(item,i) in listLinks" :key="i">
-                <div class="list-group_header">
-                    <div class="list-item" @click="selectItem(item, i)">
+                <div class="list-group_header" @click="selectItem(item, i)">
+                    <div class="list-item">
                         {{item.name}}
                     </div>
                 </div>

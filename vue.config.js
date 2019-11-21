@@ -4,6 +4,14 @@ module.exports = {
             splitChunks: {
                 chunks:"all"
             }
-        }
+        },
+        // module:{
+        //     rules: [
+        //         {
+        //             test: /\.css$/,
+        //             use: ['postcss-loader']
+        //         }
+        //     ]
+        // }
     }
 };

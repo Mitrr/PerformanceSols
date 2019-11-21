@@ -8,7 +8,7 @@
                          @click="addGroupInput = true">
                 </template>
                 <template v-slot:content>
-                        <div>
+                        <div class="some">
                             <ul v-for="(group,i) in groups" :key="i">
                                 <tree-item class="item" :item="group"
                                            @materials="loadMaterialsAndWorksTables"
@@ -154,13 +154,13 @@
                 }
             },
             openEditMaterials(item){
-                let test = {
-                    id:1,
-                    section_id: 42,
-                    price: "832.50",
-                    measurement_id: "кг",
-                    coefficient_id: "Элитный",
-                };
+                // let test = {
+                //     id:1,
+                //     section_id: 42,
+                //     price: "832.50",
+                //     measurement_id: "кг",
+                //     coefficient_id: "Элитный",
+                // };
                 //this.$store.dispatch('worksHandbook/editMaterial',test);
                 console.log(item)
             }
@@ -190,10 +190,10 @@
     .item{
         cursor: pointer;
     }
-    .ul {
-        padding-left: 1em;
-        line-height: 1.5em;
-        list-style-type: dot;
-    }
+    /*ul {*/
+    /*    padding-left: 1em;*/
+    /*    line-height: 1.5em;*/
+    /*    list-style-type: dot;*/
+    /*}*/
 
 </style>

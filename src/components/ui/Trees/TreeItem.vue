@@ -121,15 +121,14 @@
                 this.nodeName = '';
                 this.showInput = false;
             },
-            setMaterials:function (materials) {
-                console.log('pidaras');
-            }
         }
     }
 </script>
 
 <style scoped>
+    $w:    bold;
+
     .bold {
-        font-weight: bold;
+        font-weight: $w;
     }
 </style>
