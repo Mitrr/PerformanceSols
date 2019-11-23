@@ -27,6 +27,10 @@ export default new Vuex.Store({
 
                 "list":function (cell) {
                     return cell;
+                },
+
+                "hidden": function (cell) {
+                    return cell;
                 }
 
             };
@@ -37,13 +41,13 @@ export default new Vuex.Store({
                     type = column.type,
                     // width = cellsWidth[type],
                     style = item[column.data_key_style] || '',
+                    description = column.data_key || '',
 
-                    cell = { value, type, style };
+                    cell = { value, type, style, description };
 
                 return handleCell(cell);
 
             };
-
 
             var handleCell = function (cell) {
                 return cellHandler[cell.type] ? cellHandler[cell.type](cell) : undefined;

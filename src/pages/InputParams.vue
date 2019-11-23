@@ -257,15 +257,4 @@
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
 
-    .inputs-group{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    .inputs-group>input{
-        height: 40px;
-        font-size: 0.85rem;
-        margin-bottom: 10px;
-    }
-
 </style>

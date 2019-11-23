@@ -1,11 +1,13 @@
 import axios from 'axios'
 
 const state = () => ({
-    treeData:[],
-    materialsTable:{
-        data:[],
-        headers:[]
+    treeData: [],
+    materialsTable: {
+        data: [],
+        headers: []
     },
+    units: [],
+    coeffs: [],
 });
 
 const mutations = {
@@ -18,6 +20,12 @@ const mutations = {
     },
     pushToTreeData(state, paylaod){
         state.treeData.push(paylaod);
+    },
+    setUnits(state, payload){
+        state.units = payload;
+    },
+    setCoeffs(state, payload){
+        state.coeffs = payload;
     }
 };
 
@@ -37,15 +45,26 @@ const actions = {
        }
 
     },
-    deleteNode({commit}, {id}){
+    deleteNode(context, {id}){
         axios.delete('http://api.srvrdev.ru/api/materials-sections/'+id)
     },
-    editNode({commit},{id,name}){
+    editNode(context,{id,name}){
         axios.put('http://api.srvrdev.ru/api/materials-sections/'+id,{id,name})
     },
     editMaterial({commit},payload){
         commit('setMaterialItem',payload);
         //axios.put(`http://api.srvrdev.ru/api/materials?section_id=${payload.id}`, payload);
+    },
+    createMaterial(context,payload){
+        axios.post('http://api.srvrdev.ru/api/materials', payload);
+    },
+    loadUnitsList({commit}){
+        axios.get('http://api.srvrdev.ru/api/settings-unit-measurement?no_table=true').then(res => res.data)
+            .then( data => commit('setUnits', data) );
+    },
+    loadCoeffsList({commit}){
+        axios.get('http://api.srvrdev.ru/api/setting-coefficient?no_table=true').then( res => res.data )
+            .then( data => commit('setCoeffs', data) )
     }
 };
 

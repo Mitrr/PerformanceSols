@@ -25,7 +25,7 @@
                 <icon :icon="'delete_outline'"></icon>
             </span>
 
-            <span style="margin: 0 5px" @click="showEdit = true">
+            <span style="margin: 0 5px" @click="openNodeEditing">
                 <icon :icon="'edit'"></icon>
             </span>
         </div>
@@ -94,8 +94,7 @@
                 payload.parent_id = this.parent_id;
                 payload.name = this.nodeName;
 
-                if (payload.name){
-                    //this.$emit('add-node', {newNode:payload, parentNode:item});
+                if (payload.name && payload.name !== this.item.name){
                     let res = await this.$store.dispatch('worksHandbook/saveNode',payload);
 
                     if (res){
@@ -108,14 +107,18 @@
                 this.isOpen = false;
             },
             editNode(item){
-                if (this.nodeName){
+                if (this.nodeName && this.nodeName !== item.name){
                     let payload = Object.assign({},item);
                     payload.name = this.nodeName;
                     this.$store.dispatch('worksHandbook/editNode',payload).then( () => {
-                        this.showEdit = false;
                         item.name = this.nodeName;
                     });
                 }
+                this.showEdit = false;
+            },
+            openNodeEditing(){
+                this.showEdit = true;
+                this.nodeName = this.item.name;
             },
             clearInput(){
                 this.nodeName = '';

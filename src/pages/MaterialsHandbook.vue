@@ -3,7 +3,7 @@
         <div class="column-flex">
             <Card :footer="false" style="height: 100%;min-height: 35vh;border-radius: 6px">
                 <template v-slot:header>
-                    <p class="card-title">Справочник материалов</p>
+                    <p class="card-title">Справочник</p>
                     <img class="header-img-btn" src="./../../public/add-to-list.png"
                          @click="addGroupInput = true">
                 </template>
@@ -31,25 +31,27 @@
             </Card>
 
             <div class="column-flex">
-                <card :footer="false" style="flex: 1">
-                    <template v-slot:header>
-                        <p class="card-title">
-                            <span>Материалы</span>
-                            <span class="active-blue-color">{{activeNodeSubtitle}}</span>
-                        </p>
-                        <img class="header-img-btn" src="./../../public/add-to-list.png"
-                             @click="addMaterialDialog">
-                    </template>
-                    <template v-slot:content>
-                        <Table v-if="activeMaterials.data.length>0"
-                               :headers="activeMaterials.headers" :data="activeMaterials.data"
-                               @edit="openEditMaterials($event)"
-                        >
+                <materials-table :node-subtitle="nodeSubtitle" :active-section-id="activeSectionId"/>
+<!--                <card :footer="false" style="flex: 1">-->
+<!--                    <template v-slot:header>-->
+<!--                        <p class="card-title">-->
+<!--                            <span>Материалы</span>-->
+<!--                            <span class="active-blue-color">{{activeNodeSubtitle}}</span>-->
+<!--                        </p>-->
+<!--                        <img class="header-img-btn" src="./../../public/add-to-list.png"-->
+<!--                             v-if="nodeSubtitle"-->
+<!--                             @click="openAddMaterialDialog">-->
+<!--                    </template>-->
+<!--                    <template v-slot:content>-->
+<!--                        <Table v-if="activeMaterials.data.length > 0"-->
+<!--                               :headers="activeMaterials.headers" :data="activeMaterials.data"-->
+<!--                               @edit="openEditMaterials($event)"-->
+<!--                        >-->
 
-                        </Table>
-                        <div v-else>В этом разделе нет материалов</div>
-                    </template>
-                </card>
+<!--                        </Table>-->
+<!--                        <div v-else>{{noMaterialsText}}</div>-->
+<!--                    </template>-->
+<!--                </card>-->
 
                 <card :footer="false" style="flex: 1">
                     <template v-slot:header>
@@ -59,23 +61,54 @@
                         </p>
                     </template>
                     <template v-slot:content>
-                        <div v-if="true">hello</div>
+                        <div v-if="false">hello</div>
                         <div v-else>В этом разделе нет работ</div>
                     </template>
                 </card>
             </div>
         </div>
 
+<!--        <popup v-if="editDialog" @close="editDialog = false">-->
+<!--            <template v-slot:inner>-->
+<!--                <card :header="false">-->
+<!--                    <template v-slot:content>-->
+<!--                        hi-->
+<!--                    </template>-->
+<!--                </card>-->
+<!--            </template>-->
+<!--        </popup>-->
 
-        <popup v-if="editDialog" @close="editDialog = false">
-            <template v-slot:inner>
-                <card :header="false">
-                    <template v-slot:content>
-                        hi
-                    </template>
-                </card>
-            </template>
-        </popup>
+        <create-material-dialog v-if="addMaterialDialog" @close="addMaterialDialog = false"></create-material-dialog>
+
+<!--        <popup v-if="addMaterialDialog" @close="addMaterialDialog = false">-->
+<!--            <template v-slot:inner>-->
+<!--                <card :header="false">-->
+<!--                    <template v-slot:content>-->
+<!--                        <p>Добавление материала</p>-->
+<!--                        <div class="inputs-group">-->
+<!--                            <input class="node-input" type="text" name="name" placeholder="Название материала..." v-model="newMaterial.name">-->
+<!--                            <input class="node-input" type="number" name="price" placeholder="Цена..." v-model="newMaterial.price">-->
+
+<!--                            <label for="units" style="padding-bottom: 5px">Единицы измерения:</label>-->
+<!--                            <select id="units" v-model="newMaterial.measurement_id">-->
+<!--                                <option value="">&#45;&#45;Выберите единицы измерения&#45;&#45;</option>-->
+<!--                                <option v-for="(unit,i) in units" :key="i" :value="unit.id">{{unit.name}}</option>-->
+<!--                            </select>-->
+
+<!--                            <label for="coeffs" style="padding-bottom: 5px">Коэффициенты:</label>-->
+<!--                            <select id="coeffs" v-model="newMaterial.coefficient_id">-->
+<!--                                <option value="">&#45;&#45;Выберите коэффициент&#45;&#45;</option>-->
+<!--                                <option v-for="(coeff, j) in coeffs" :key="j" :value="coeff.id">{{coeff.name}}</option>-->
+<!--                            </select>-->
+
+<!--                        </div>-->
+
+<!--                        <button @click="createMaterial(newMaterial)">Добавить</button>-->
+
+<!--                    </template>-->
+<!--                </card>-->
+<!--            </template>-->
+<!--        </popup>-->
 
     </div>
 </template>
@@ -83,13 +116,17 @@
 <script>
     import TreeItem from '../components/ui/Trees/TreeItem';
     import {mapActions,mapState} from 'vuex';
+    import MaterialsTable from '../components/works-handbook-page/MaterialsTable';
 
     export default {
         name: "MaterialsHandbook",
         components:{
             TreeItem,
-            Popup: () => import('../components/ui/Popup'),
-            Table: () => import('../components/ui/WithDeleteButtonTable')
+            // addMaterialDialog = false
+            // Popup: () => import('../components/ui/Popup'),
+            // Table: () => import('../components/ui/WithDeleteButtonTable'),
+            CreateMaterialDialog: () => import('../components/works-handbook-page/CreateMaterialDialog'),
+            MaterialsTable,
         },
         data(){
             return{
@@ -102,33 +139,48 @@
                 addGroupInput: false,
                 newRootNode:{
                     name:'',
-                    parent_id:null
-                }
+                    parent_id: null,
+                },
+                // newMaterial:{
+                //     section_id:null,
+                //     name:'',
+                //     price:'',
+                //     measurement_id: null,
+                //     coefficient_id: 1,
+                // },
+                activeSectionId:''
             }
         },
         computed:{
             ...mapState('worksHandbook',{
                 groups: state => state.treeData,
-                activeMaterials: state => state.materialsTable,
+                // activeMaterials: state => state.materialsTable,
+                // units: state => state.units,
+                // coeffs: state => state.coeffs,
             }),
             activeNodeSubtitle(){
                 return this.nodeSubtitle ? ' - '+ this.nodeSubtitle : '';
-            }
+            },
+            noMaterialsText(){
+                return this.nodeSubtitle === '' ? 'Выберите раздел' : 'В этом разделе нет материалов';
+            },
+
         },
         methods:{
             ...mapActions('worksHandbook', [
                 'saveNode',
+                'createMaterial',
             ]),
 
             loadMaterialsAndWorksTables({name,id}){
                 this.nodeSubtitle = name;
+                this.activeSectionId = id;
 
                 this.$store.dispatch('loadTable',{
                     url:`http://api.srvrdev.ru/api/materials?section_id=${id}`,
                     commitName:'worksHandbook/setMaterials'
                 })
             },
-
             addItem: function (item) {
                 item.children.push({
                     name: ''
@@ -153,6 +205,16 @@
                     });
                 }
             },
+            openAddMaterialDialog(){
+                Promise.all([
+                    this.$store.dispatch('worksHandbook/loadUnitsList'),
+                    this.$store.dispatch('worksHandbook/loadCoeffsList')
+                ]).then( () => {
+                    this.addMaterialDialog = true;
+                    this.newMaterial.section_id = this.activeSectionId;
+                });
+
+            },
             openEditMaterials(item){
                 // let test = {
                 //     id:1,
@@ -163,7 +225,7 @@
                 // };
                 //this.$store.dispatch('worksHandbook/editMaterial',test);
                 console.log(item)
-            }
+            },
         },
         mounted() {
             this.$store.dispatch('worksHandbook/loadTreeData');
