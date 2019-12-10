@@ -31,7 +31,8 @@
             </Card>
 
             <div class="column-flex">
-                <materials-table :node-subtitle="nodeSubtitle" :active-section-id="activeSectionId"/>
+                <materials-table :node-subtitle="nodeSubtitle" :active-section-id="activeSectionId"
+                @openCreate="openAddMaterialDialog"/>
 <!--                <card :footer="false" style="flex: 1">-->
 <!--                    <template v-slot:header>-->
 <!--                        <p class="card-title">-->
@@ -141,13 +142,13 @@
                     name:'',
                     parent_id: null,
                 },
-                // newMaterial:{
-                //     section_id:null,
-                //     name:'',
-                //     price:'',
-                //     measurement_id: null,
-                //     coefficient_id: 1,
-                // },
+                newMaterial:{
+                    section_id:null,
+                    name:'',
+                    price:'',
+                    measurement_id: null,
+                    coefficient_id: 1,
+                },
                 activeSectionId:''
             }
         },
