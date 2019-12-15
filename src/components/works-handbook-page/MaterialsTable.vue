@@ -7,14 +7,13 @@
             </p>
             <img class="header-img-btn" src="./../../../public/add-to-list.png"
                  v-if="nodeSubtitle"
-                 @click="emit('openCreate')"
+                 @click="$emit('openCreate')"
             >
         </template>
         <template v-slot:content>
             <Table v-if="activeMaterials.data.length > 0"
                    :headers="activeMaterials.headers" :data="activeMaterials.data"
             >
-
             </Table>
             <div v-else>{{noMaterialsText}}</div>
         </template>
@@ -30,11 +29,6 @@
         props:{
           nodeSubtitle:String,
           activeSectionId:[String,Number],
-
-        },
-        data(){
-            return{
-            }
         },
         computed:{
             activeMaterials(){

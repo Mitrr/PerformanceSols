@@ -36,6 +36,7 @@ const actions = {
             withCredentials:true
         }).then(res => res.data).then(json => commit('setTreeData',json))
     },
+
     async saveNode({commit}, paylaod){
        let item = await axios.post('http://api.srvrdev.ru/api/materials-sections', paylaod).then(res => res.data);
        if (item.parent_id === null){
@@ -43,21 +44,32 @@ const actions = {
        } else {
            return item ? item : false;
        }
-
     },
+
     deleteNode(context, {id}){
         axios.delete('http://api.srvrdev.ru/api/materials-sections/'+id)
     },
     editNode(context,{id,name}){
         axios.put('http://api.srvrdev.ru/api/materials-sections/'+id,{id,name})
     },
+
     editMaterial({commit},payload){
         commit('setMaterialItem',payload);
         //axios.put(`http://api.srvrdev.ru/api/materials?section_id=${payload.id}`, payload);
     },
-    createMaterial(context,payload){
-        axios.post('http://api.srvrdev.ru/api/materials', payload);
+
+    createMaterial(context, payload){
+        axios.post('http://api.srvrdev.ru/api/materials', payload)
+            .then(data => {
+                if (data.statusText === "Created"){
+                    context.dispatch('loadTable',{
+                        url:`http://api.srvrdev.ru/api/materials?section_id=${payload.section_id}`,
+                        commitName:'worksHandbook/setMaterials'
+                    },{root: true});
+                }
+            });
     },
+
     loadUnitsList({commit}){
         axios.get('http://api.srvrdev.ru/api/settings-unit-measurement?no_table=true').then(res => res.data)
             .then( data => commit('setUnits', data) );

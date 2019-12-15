@@ -33,6 +33,7 @@
             <div class="column-flex">
                 <materials-table :node-subtitle="nodeSubtitle" :active-section-id="activeSectionId"
                 @openCreate="openAddMaterialDialog"/>
+
 <!--                <card :footer="false" style="flex: 1">-->
 <!--                    <template v-slot:header>-->
 <!--                        <p class="card-title">-->
@@ -79,37 +80,8 @@
 <!--            </template>-->
 <!--        </popup>-->
 
-        <create-material-dialog v-if="addMaterialDialog" @close="addMaterialDialog = false"></create-material-dialog>
-
-<!--        <popup v-if="addMaterialDialog" @close="addMaterialDialog = false">-->
-<!--            <template v-slot:inner>-->
-<!--                <card :header="false">-->
-<!--                    <template v-slot:content>-->
-<!--                        <p>Добавление материала</p>-->
-<!--                        <div class="inputs-group">-->
-<!--                            <input class="node-input" type="text" name="name" placeholder="Название материала..." v-model="newMaterial.name">-->
-<!--                            <input class="node-input" type="number" name="price" placeholder="Цена..." v-model="newMaterial.price">-->
-
-<!--                            <label for="units" style="padding-bottom: 5px">Единицы измерения:</label>-->
-<!--                            <select id="units" v-model="newMaterial.measurement_id">-->
-<!--                                <option value="">&#45;&#45;Выберите единицы измерения&#45;&#45;</option>-->
-<!--                                <option v-for="(unit,i) in units" :key="i" :value="unit.id">{{unit.name}}</option>-->
-<!--                            </select>-->
-
-<!--                            <label for="coeffs" style="padding-bottom: 5px">Коэффициенты:</label>-->
-<!--                            <select id="coeffs" v-model="newMaterial.coefficient_id">-->
-<!--                                <option value="">&#45;&#45;Выберите коэффициент&#45;&#45;</option>-->
-<!--                                <option v-for="(coeff, j) in coeffs" :key="j" :value="coeff.id">{{coeff.name}}</option>-->
-<!--                            </select>-->
-
-<!--                        </div>-->
-
-<!--                        <button @click="createMaterial(newMaterial)">Добавить</button>-->
-
-<!--                    </template>-->
-<!--                </card>-->
-<!--            </template>-->
-<!--        </popup>-->
+        <create-material-dialog v-if="addMaterialDialog" @close="addMaterialDialog = false"
+        :active-section-id="activeSectionId"></create-material-dialog>
 
     </div>
 </template>
@@ -141,13 +113,6 @@
                 newRootNode:{
                     name:'',
                     parent_id: null,
-                },
-                newMaterial:{
-                    section_id:null,
-                    name:'',
-                    price:'',
-                    measurement_id: null,
-                    coefficient_id: 1,
                 },
                 activeSectionId:''
             }
@@ -212,7 +177,7 @@
                     this.$store.dispatch('worksHandbook/loadCoeffsList')
                 ]).then( () => {
                     this.addMaterialDialog = true;
-                    this.newMaterial.section_id = this.activeSectionId;
+                    // this.newMaterial.section_id = this.activeSectionId;
                 });
 
             },
