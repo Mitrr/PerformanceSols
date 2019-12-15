@@ -32,7 +32,9 @@
 
             <div class="column-flex">
                 <materials-table :node-subtitle="nodeSubtitle" :active-section-id="activeSectionId"
-                @openCreate="openAddMaterialDialog"/>
+                                 @openCreate="openAddMaterialDialog"
+                                 @delete="deleteMaterial"
+                />
 
 <!--                <card :footer="false" style="flex: 1">-->
 <!--                    <template v-slot:header>-->
@@ -136,6 +138,7 @@
             ...mapActions('worksHandbook', [
                 'saveNode',
                 'createMaterial',
+                'deleteMaterial'
             ]),
 
             loadMaterialsAndWorksTables({name,id}){
@@ -177,7 +180,6 @@
                     this.$store.dispatch('worksHandbook/loadCoeffsList')
                 ]).then( () => {
                     this.addMaterialDialog = true;
-                    // this.newMaterial.section_id = this.activeSectionId;
                 });
 
             },

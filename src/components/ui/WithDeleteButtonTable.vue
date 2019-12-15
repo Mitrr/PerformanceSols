@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="delete-icon" style="cursor: pointer" @click.stop="$emit('deleteCoeff',row[0].value)">
-                    <icon :id="'delete'" :icon="'delete_outline'" @click.stop="$emit('deleteCoeff',row[0].value)"></icon>
+                    <icon :id="'delete'" :icon="'delete_outline'"></icon>
                 </div>
 
             </div>

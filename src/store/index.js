@@ -91,6 +91,9 @@ export default new Vuex.Store({
             resultHeaders = headers.map(handleColumn);
 
             context.commit(commitName, { data: resultData, headers: resultHeaders});
+        },
+        showAlert(context, message = 'Вы уверены?'){
+             return confirm(message);
         }
     }
 })

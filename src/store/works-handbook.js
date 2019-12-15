@@ -26,6 +26,9 @@ const mutations = {
     },
     setCoeffs(state, payload){
         state.coeffs = payload;
+    },
+    deleteMaterial(state, id){
+        state.materialsTable.data = state.materialsTable.data.filter( item => item[0].value !== id);
     }
 };
 
@@ -66,6 +69,18 @@ const actions = {
                         url:`http://api.srvrdev.ru/api/materials?section_id=${payload.section_id}`,
                         commitName:'worksHandbook/setMaterials'
                     },{root: true});
+                }
+            });
+    },
+
+    deleteMaterial(context, id){
+
+        context.dispatch('showAlert','Вы уверены, что хотите удалить этот элемент?',{root:true})
+            .then(res => {
+                if (res){
+                    axios.delete('http://api.srvrdev.ru/api/materials/'+id).then( () => {
+                        context.commit('deleteMaterial',id);
+                    });
                 }
             });
     },

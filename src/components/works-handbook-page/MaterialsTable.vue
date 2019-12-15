@@ -13,6 +13,7 @@
         <template v-slot:content>
             <Table v-if="activeMaterials.data.length > 0"
                    :headers="activeMaterials.headers" :data="activeMaterials.data"
+                   @deleteCoeff="$emit('delete', $event)"
             >
             </Table>
             <div v-else>{{noMaterialsText}}</div>
