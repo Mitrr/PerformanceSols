@@ -14,6 +14,7 @@
             <Table v-if="activeMaterials.data.length > 0"
                    :headers="activeMaterials.headers" :data="activeMaterials.data"
                    @deleteCoeff="$emit('delete', $event)"
+                   @edit="$emit('edit',$event)"
             >
             </Table>
             <div v-else>{{noMaterialsText}}</div>

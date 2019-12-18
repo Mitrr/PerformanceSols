@@ -31,31 +31,12 @@
             </Card>
 
             <div class="column-flex">
+
                 <materials-table :node-subtitle="nodeSubtitle" :active-section-id="activeSectionId"
                                  @openCreate="openAddMaterialDialog"
                                  @delete="deleteMaterial"
+                                 @edit="openEditMaterial"
                 />
-
-<!--                <card :footer="false" style="flex: 1">-->
-<!--                    <template v-slot:header>-->
-<!--                        <p class="card-title">-->
-<!--                            <span>Материалы</span>-->
-<!--                            <span class="active-blue-color">{{activeNodeSubtitle}}</span>-->
-<!--                        </p>-->
-<!--                        <img class="header-img-btn" src="./../../public/add-to-list.png"-->
-<!--                             v-if="nodeSubtitle"-->
-<!--                             @click="openAddMaterialDialog">-->
-<!--                    </template>-->
-<!--                    <template v-slot:content>-->
-<!--                        <Table v-if="activeMaterials.data.length > 0"-->
-<!--                               :headers="activeMaterials.headers" :data="activeMaterials.data"-->
-<!--                               @edit="openEditMaterials($event)"-->
-<!--                        >-->
-
-<!--                        </Table>-->
-<!--                        <div v-else>{{noMaterialsText}}</div>-->
-<!--                    </template>-->
-<!--                </card>-->
 
                 <card :footer="false" style="flex: 1">
                     <template v-slot:header>
@@ -72,15 +53,9 @@
             </div>
         </div>
 
-<!--        <popup v-if="editDialog" @close="editDialog = false">-->
-<!--            <template v-slot:inner>-->
-<!--                <card :header="false">-->
-<!--                    <template v-slot:content>-->
-<!--                        hi-->
-<!--                    </template>-->
-<!--                </card>-->
-<!--            </template>-->
-<!--        </popup>-->
+        <EditMatrialPopup v-if="editDialog" @close="editDialog = false" :material="material"
+                          @save="changeMaterial({...$event, section_id: activeSectionId})"
+        ></EditMatrialPopup>
 
         <create-material-dialog v-if="addMaterialDialog" @close="addMaterialDialog = false"
         :active-section-id="activeSectionId"></create-material-dialog>
@@ -97,11 +72,9 @@
         name: "MaterialsHandbook",
         components:{
             TreeItem,
-            // addMaterialDialog = false
-            // Popup: () => import('../components/ui/Popup'),
-            // Table: () => import('../components/ui/WithDeleteButtonTable'),
             CreateMaterialDialog: () => import('../components/works-handbook-page/CreateMaterialDialog'),
             MaterialsTable,
+            EditMatrialPopup: () => import("../components/works-handbook-page/EditMaterialPopup"),
         },
         data(){
             return{
@@ -116,15 +89,20 @@
                     name:'',
                     parent_id: null,
                 },
-                activeSectionId:''
+                activeSectionId:'',
+                material: {
+                    coefficient_id: "",
+                    id: "",
+                    measurement_id: "",
+                    name: "",
+                    price: "",
+                    section_id: "",
+                }
             }
         },
         computed:{
             ...mapState('worksHandbook',{
                 groups: state => state.treeData,
-                // activeMaterials: state => state.materialsTable,
-                // units: state => state.units,
-                // coeffs: state => state.coeffs,
             }),
             activeNodeSubtitle(){
                 return this.nodeSubtitle ? ' - '+ this.nodeSubtitle : '';
@@ -138,7 +116,8 @@
             ...mapActions('worksHandbook', [
                 'saveNode',
                 'createMaterial',
-                'deleteMaterial'
+                'deleteMaterial',
+                'changeMaterial'
             ]),
 
             loadMaterialsAndWorksTables({name,id}){
@@ -161,11 +140,18 @@
             },
             deleteNode(item){
                 let vm = this;
-                this.$store.dispatch('worksHandbook/deleteNode',item).then( () => {
-                    for (let key in item){
-                        vm.$delete(item,key,'');
+
+                this.$store.dispatch('showAlert','Вы уверены, что хотите удалить этот раздел?').then( res => {
+                    if (res){
+                        this.$store.dispatch('worksHandbook/deleteNode',item).then( () => {
+                            for (let key in item){
+                                vm.$delete(item,key,'');
+                            }
+                        });
                     }
-                })
+                });
+
+
             },
             saveRootNode(){
                 if (this.newRootNode.name){
@@ -183,16 +169,13 @@
                 });
 
             },
-            openEditMaterials(item){
-                // let test = {
-                //     id:1,
-                //     section_id: 42,
-                //     price: "832.50",
-                //     measurement_id: "кг",
-                //     coefficient_id: "Элитный",
-                // };
+            openEditMaterial(tableRow){
                 //this.$store.dispatch('worksHandbook/editMaterial',test);
-                console.log(item)
+
+                for (const cell of tableRow){
+                    this.material[cell.description] = cell.value;
+                }
+                this.editDialog = true;
             },
         },
         mounted() {

@@ -56,11 +56,6 @@ const actions = {
         axios.put('http://api.srvrdev.ru/api/materials-sections/'+id,{id,name})
     },
 
-    editMaterial({commit},payload){
-        commit('setMaterialItem',payload);
-        //axios.put(`http://api.srvrdev.ru/api/materials?section_id=${payload.id}`, payload);
-    },
-
     createMaterial(context, payload){
         axios.post('http://api.srvrdev.ru/api/materials', payload)
             .then(data => {
@@ -83,6 +78,11 @@ const actions = {
                     });
                 }
             });
+    },
+
+    changeMaterial(context, payload){
+        //console.log(payload);
+        axios.put(`http://api.srvrdev.ru/api/materials?section_id=${payload.section_id}`, payload);
     },
 
     loadUnitsList({commit}){
