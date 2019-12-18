@@ -97,6 +97,7 @@
                     name: "",
                     price: "",
                     section_id: "",
+                    rowId:""
                 }
             }
         },
@@ -150,8 +151,6 @@
                         });
                     }
                 });
-
-
             },
             saveRootNode(){
                 if (this.newRootNode.name){
@@ -170,11 +169,10 @@
 
             },
             openEditMaterial(tableRow){
-                //this.$store.dispatch('worksHandbook/editMaterial',test);
-
                 for (const cell of tableRow){
                     this.material[cell.description] = cell.value;
                 }
+                this.material.rowId = tableRow[0].rowId;
                 this.editDialog = true;
             },
         },

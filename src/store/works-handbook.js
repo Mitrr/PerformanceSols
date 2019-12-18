@@ -29,6 +29,13 @@ const mutations = {
     },
     deleteMaterial(state, id){
         state.materialsTable.data = state.materialsTable.data.filter( item => item[0].value !== id);
+    },
+    changeMaterial(state, { rowId, ...payload }) {
+        let rowTemplate = state.materialsTable.data[rowId];
+        for (let cell of rowTemplate){
+            cell.value = payload[cell.description];
+        }
+        state.materialsTable.data[rowId] = rowTemplate;
     }
 };
 
@@ -80,9 +87,10 @@ const actions = {
             });
     },
 
-    changeMaterial(context, payload){
-        //console.log(payload);
-        axios.put(`http://api.srvrdev.ru/api/materials?section_id=${payload.section_id}`, payload);
+    changeMaterial({commit}, payload){
+        axios.put(`http://api.srvrdev.ru/api/materials/${payload.id}`, payload).then( res => {
+            commit('changeMaterial', payload);
+        });
     },
 
     loadUnitsList({commit}){

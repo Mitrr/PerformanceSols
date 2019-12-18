@@ -10,9 +10,9 @@
         </div>
 
         <div class="table_body_wrapper" style="overflow:auto;height: 100%;">
-            <div :class="['table_line',dividers?'':'no-divider']"
-                 v-for="(row,j) in data" :key="j" :id="row[0].value"
-                 @click="$emit('edit',row)"
+            <div :class="['table_line', dividers?'':'no-divider']"
+                 v-for="(row, j) in data" :key="j" :id="row[0].value"
+                 @click="emitEdit(row, j)"
             >
                 <div v-for="(cell,i) in row" :key="i"
                      :style="cell.style"
@@ -36,7 +36,14 @@
 
     export default {
         extends:Table,
-        name: "WithDeleteButtonTable"
+        name: "WithDeleteButtonTable",
+        methods:{
+            emitEdit(row, rowID){
+                row[0].rowId = rowID;
+
+                this.$emit( 'edit', row)
+            }
+        }
     }
 </script>
 
