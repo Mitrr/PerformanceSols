@@ -38,16 +38,27 @@
                                  @edit="openEditMaterial"
                 />
 
-                <card :footer="false" style="flex: 1">
+                <card style="flex: 1">
                     <template v-slot:header>
                         <p class="card-title">
                             <span>Работы</span>
                             <span class="active-blue-color">{{activeNodeSubtitle}}</span>
                         </p>
+                        <img v-if="worksTableHeaders.length > 0"
+                             @click="workDialog = true"
+                             class="header-img-btn"
+                             src="./../../public/add-to-list.png">
                     </template>
                     <template v-slot:content>
-                        <div v-if="false">hello</div>
+                        <Table v-if="worksTableData.length > 0"
+                               :headers="worksTableHeaders" :data="worksTableData"
+                               :scroll-width-x="1500"
+                        >
+                        </Table>
                         <div v-else>В этом разделе нет работ</div>
+                    </template>
+                    <template v-slot:footer>
+                        <p class="scrollable-chip" style="margin: 0 auto;margin-bottom: 10px">← →</p>
                     </template>
                 </card>
             </div>
@@ -59,6 +70,8 @@
 
         <create-material-dialog v-if="addMaterialDialog" @close="addMaterialDialog = false"
         :active-section-id="activeSectionId"></create-material-dialog>
+
+        <work-popup v-if="workDialog" @close="workDialog = false"></work-popup>
 
     </div>
 </template>
@@ -75,6 +88,8 @@
             CreateMaterialDialog: () => import('../components/works-handbook-page/CreateMaterialDialog'),
             MaterialsTable,
             EditMatrialPopup: () => import("../components/works-handbook-page/EditMaterialPopup"),
+            Table: () => import('@/components/ui/WithDeleteButtonTable'),
+            WorkPopup: () => import('@/components/works-handbook-page/WorkPopup')
         },
         data(){
             return{
@@ -98,12 +113,15 @@
                     price: "",
                     section_id: "",
                     rowId:""
-                }
+                },
+                workDialog: false,
             }
         },
         computed:{
             ...mapState('worksHandbook',{
                 groups: state => state.treeData,
+                worksTableData: state => state.worksTable.data,
+                worksTableHeaders: state => state.worksTable.headers,
             }),
             activeNodeSubtitle(){
                 return this.nodeSubtitle ? ' - '+ this.nodeSubtitle : '';
@@ -128,8 +146,14 @@
                 this.$store.dispatch('loadTable',{
                     url:`http://api.srvrdev.ru/api/materials?section_id=${id}`,
                     commitName:'worksHandbook/setMaterials'
-                })
+                });
+
+                this.$store.dispatch('loadTable',{
+                    url:`http://api.srvrdev.ru/api/works?section_id=${id}`,
+                    commitName:'worksHandbook/setWorks'
+                });
             },
+
             addItem: function (item) {
                 item.children.push({
                     name: ''
@@ -183,7 +207,6 @@
 </script>
 
 <style scoped>
-
     .split-blocks_container{
         display: flex;
         flex-direction: row;
@@ -201,10 +224,5 @@
     .item{
         cursor: pointer;
     }
-    /*ul {*/
-    /*    padding-left: 1em;*/
-    /*    line-height: 1.5em;*/
-    /*    list-style-type: dot;*/
-    /*}*/
 
 </style>

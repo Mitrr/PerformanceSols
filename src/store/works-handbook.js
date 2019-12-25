@@ -8,6 +8,11 @@ const state = () => ({
     },
     units: [],
     coeffs: [],
+
+    worksTable:{
+        data: [],
+        headers: []
+    }
 });
 
 const mutations = {
@@ -36,6 +41,10 @@ const mutations = {
             cell.value = payload[cell.description];
         }
         state.materialsTable.data[rowId] = rowTemplate;
+    },
+    setWorks(state, payload){
+        state.worksTable.data = payload.data;
+        state.worksTable.headers = payload.headers;
     }
 };
 
@@ -48,7 +57,7 @@ const actions = {
     },
 
     async saveNode({commit}, paylaod){
-       let item = await axios.post('http://api.srvrdev.ru/api/materials-sections', paylaod).then(res => res.data);
+       let item = await axios.post('http://api.srvrdev.ru/api/materials-sections', paylaod).then( res => res.data );
        if (item.parent_id === null){
            commit('pushToTreeData',item);
        } else {
@@ -76,7 +85,6 @@ const actions = {
     },
 
     deleteMaterial(context, id){
-
         context.dispatch('showAlert','Вы уверены, что хотите удалить этот элемент?',{root:true})
             .then(res => {
                 if (res){
@@ -89,7 +97,8 @@ const actions = {
 
     changeMaterial({commit}, payload){
         axios.put(`http://api.srvrdev.ru/api/materials/${payload.id}`, payload).then( res => {
-            commit('changeMaterial', payload);
+            res.data.rowId = payload.rowId;
+            commit('changeMaterial', res.data);
         });
     },
 

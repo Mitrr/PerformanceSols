@@ -2,7 +2,7 @@
     <li v-if="item.name">
         <div :class="{bold: isFolder}" @click="toggle" class="row-flex" style="align-items: center">
 
-            <span v-if="!showEdit" @click="$emit('materials', item)">
+            <span v-if="!showEdit" @click="$emit('materials', item)" style="margin-right: 5px">
                 {{ item.name }}
             </span>
 
@@ -11,7 +11,7 @@
                    v-model="nodeName"
                    @keyup.enter="editNode(item)">
 
-            <span>{{ item.code }}</span>
+            <span style="margin-right: 5px">{{ item.code }}</span>
 
             <span v-if="isFolder">
                 [{{ isOpen ? '-' : '+' }}]
@@ -40,7 +40,9 @@
                     @delete-node="$emit('delete-node',$event)"
             >
             </tree-item>
-            <li v-if="!showInput" class="add" @click.stop="openNewNodeInput(item.id)" style="cursor: pointer">добавить</li>
+            <li v-if="!showInput" class="add active-blue-color pointered" @click.stop="openNewNodeInput(item.id)"
+            >добавить</li>
+
             <li v-else>
                 <input class="node-input" type="text" name="name"
                        placeholder="Название раздела"

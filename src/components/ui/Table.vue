@@ -1,16 +1,16 @@
 <template>
     <div class="table_wrapper">
-        <div class="table_header" :style="{color:headersColor}">
+        <div class="table_header" :style="{color: headersColor, width: scrollWidthX? parseInt(scrollWidthX)+'px' : '100%'}">
             <div class="table_header_item"
                  v-for="(column,i) in headers" :key="i"
                  :style="column.style"
             >
-                <span style="width: 100%;display: block;white-space: nowrap" >{{column.name}}</span>
+                <span style="width: 100%;display: block;white-space: nowrap">{{column.name}}</span>
             </div>
         </div>
 
         <div class="table_body_wrapper" style="overflow:auto;height: 100%;">
-            <div :class="['table_line',dividers?'':'no-divider']"
+            <div :class="['table_line', dividers?'':'no-divider']"
                  v-for="(row,j) in data" :key="j" :id="row[0].value"
                  @click="$emit('edit',row)"
             >
@@ -28,23 +28,27 @@
     export default {
         name: "Table",
         props:{
-            headers:Array,
-            data:Array,
+            headers: Array,
+            data: Array,
             headersColor:{
-              type:String,
+              type: String,
               default:'grey'
             },
             dividers:{
-                type:Boolean,
+                type: Boolean,
                 default: true
             },
             dataUrl: {
-                type:String,
+                type: String,
                 required:false
             },
             headersUrl: {
-                type:String,
+                type: String,
                 required:false
+            },
+            scrollWidthX:{
+                type: [ Number, String, Boolean ],
+                default: false
             }
         },
     }
@@ -52,7 +56,8 @@
 
 <style scoped>
     .table_wrapper{
-        overflow: hidden;
+        /*overflow: hidden;*/
+        overflow: auto;
         height: 100%;
     }
     .table_header{

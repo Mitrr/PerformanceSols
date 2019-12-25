@@ -1,6 +1,6 @@
 <template>
     <div class="fade" @click.self="$emit('close')">
-        <div class="popup-content_wrapper" :style="{width: width,height: height}">
+        <div class="popup-content_wrapper" :style="{width: width, height: height}">
             <slot name="inner"></slot>
         </div>
     </div>

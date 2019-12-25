@@ -1,3 +1,7 @@
+$activeblue: #3367D6;
+$nonactivegray: #949494;
+$flatactiveblue: rgba(51, 103, 214, 0.2);
+
 .row-flex{
     display: flex;
     flex-direction: row;
@@ -18,7 +22,6 @@
     display: flex;
     flex-direction: column;
 }
-
 .active-blue-color{
     color: #3367D6;
 }
@@ -28,7 +31,8 @@
     border-radius: 50%;
     padding: 7px;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.1);
+    /*background-color: rgba(0, 0, 0, 0.1);*/
+    background-color: #1767c0;
 }
 .header-img-btn:hover{
     background-color: rgba(0, 0, 0, 0.26);
@@ -37,7 +41,13 @@
 .inputs-group{
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
+
+    &_row{
+        flex-direction: row;
+        justify-content: space-between;
+     }
 
     input{
         height: 40px;
@@ -45,7 +55,51 @@
         margin-bottom: 10px;
     }
 }
-/*.inputs-group>input{*/
-/*    */
-/*}*/
-
+.pointered{
+    cursor: pointer
+}
+.scrollable-chip{
+    background-color: #f3f6f8;
+    width: fit-content;
+    padding: 0 8px;
+    border-radius: 35%;
+}
+.card-actions{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+.btn{
+    margin: 10px;
+    cursor: pointer;
+    background-color: $activeblue;
+    padding: 10px;
+    border-radius: 4px;
+    color: white;
+}
+.btn:hover{
+    transition: .3s ease-in-out;
+    opacity: .85;
+}
+.flat{
+    background-color: transparent!important;
+    color: $activeblue!important;
+}
+.flat:hover{
+    background-color: $flatactiveblue!important;
+    /*color: white!important;*/
+    opacity: 1!important;
+    transition: .4s ease-in-out;
+}
+input:focus{
+    outline: none!important;
+    box-shadow: none;
+}
+.light-text-input{
+    border-bottom: 1px solid $nonactivegray;
+}
+.light-text-input:hover{
+    transition: .6s ease-in-out;
+    border-bottom: 2px solid $activeblue;
+}

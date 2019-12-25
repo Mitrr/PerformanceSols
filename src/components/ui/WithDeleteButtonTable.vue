@@ -1,6 +1,6 @@
 <template>
     <div class="table_wrapper">
-        <div class="table_header" :style="{color:headersColor}">
+        <div class="table_header" :style="{color: headersColor, width: scrollWidthX? parseInt(scrollWidthX)+'px' : '100%'}">
             <div class="table_header_item"
                  v-for="(column,i) in headers" :key="i"
                  :style="column.style"
@@ -9,7 +9,8 @@
             </div>
         </div>
 
-        <div class="table_body_wrapper" style="overflow:auto;height: 100%;">
+        <div class="table_body_wrapper" style="overflow:auto;height: 100%;"
+             :style="{width: scrollWidthX? parseInt(scrollWidthX)+'px' : '100%'}">
             <div :class="['table_line', dividers?'':'no-divider']"
                  v-for="(row, j) in data" :key="j" :id="row[0].value"
                  @click="emitEdit(row, j)"

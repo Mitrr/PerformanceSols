@@ -3,7 +3,9 @@
         <div class="navbar_content">
             <div class="page-header">{{title}}</div>
             <div style="align-items: center" class="row-flex">
-                <div style="margin-right: 10px">ava</div>
+                <div class="avatar">
+                    <img src="https://cdn.dribbble.com/users/6752/screenshots/1408825/avatar-dribbble.png">
+                </div>
                 <div>Ivan Semenovich</div>
             </div>
         </div>
@@ -43,5 +45,15 @@
         font-size: 2rem;
         font-weight: 600;
     }
+    .avatar{
+        margin-right: 10px;
+        width: 28px;
+        height: 28px;
 
+        img{
+            border-radius: 50%;
+            width: inherit;
+            height: inherit;
+        }
+    }
 </style>

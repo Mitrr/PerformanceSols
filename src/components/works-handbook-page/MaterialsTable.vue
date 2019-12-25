@@ -6,7 +6,7 @@
                 <span class="active-blue-color">{{activeNodeSubtitle}}</span>
             </p>
             <img class="header-img-btn" src="./../../../public/add-to-list.png"
-                 v-if="nodeSubtitle"
+                 v-if="activeMaterials.headers.length > 0"
                  @click="$emit('openCreate')"
             >
         </template>

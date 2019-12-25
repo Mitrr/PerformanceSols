@@ -39,6 +39,8 @@
         flex: 1;
         margin: 0 30px 30px 30px;
         border-radius: 6px;
+        overflow: hidden;
+        position: relative;
     }
     .header_wrapper{
         /*box-shadow: 0 12px 20px -10px rgba(9, 145, 255, 0.2), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(9, 145, 255, 0.2);*/
@@ -62,6 +64,10 @@
     }
     .card-footer{
         min-height: 2px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 10px 20px;
     }
 
 

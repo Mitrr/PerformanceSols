@@ -13,7 +13,8 @@ export default new Vuex.Store({
     },
     state:{},
     actions:{
-        async loadTable(context,{url,commitName}){
+        async loadTable(context,{url,commitName = null}){
+
             const cellsWidth = {
                 "text": null,
                 "list":null
@@ -90,8 +91,14 @@ export default new Vuex.Store({
 
             resultHeaders = headers.map(handleColumn);
 
-            context.commit(commitName, { data: resultData, headers: resultHeaders});
+            if (commitName === null){
+                return { data: resultData, headers: resultHeaders }
+            } else {
+                context.commit(commitName, { data: resultData, headers: resultHeaders});
+            }
+
         },
+
         showAlert(context, message = 'Вы уверены?'){
              return confirm(message);
         }

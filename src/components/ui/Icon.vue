@@ -5,17 +5,9 @@
         props:{
             icon:String,
         },
-        render(h,context) {
+        render(h, context) {
 
             const iconName = context.props.icon;
-
-            // const iconHandler = {
-            //     "delete_outline": function () {
-            //         return "delete_outline.svg";
-            //     }
-            // };
-
-            //const svgName = iconHandler[iconName]();
 
             const iconHandler = {
                 "delete_outline": function () {
