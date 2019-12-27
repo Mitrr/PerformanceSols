@@ -21,6 +21,14 @@
                     <div v-if="cell.type === 'text'">
                         {{cell.value}}
                     </div>
+
+                    <div v-else-if="cell.type === 'list'" class="column-flex">
+                        <div v-for="(item, k) in cell.value" class="row-flex" :key="k">
+                            <div v-for="(val, key, m) in item" :key="m">
+                                {{val}}--
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="delete-icon" style="cursor: pointer" @click.stop="$emit('deleteCoeff',row[0].value)">
