@@ -22,10 +22,11 @@
                         {{cell.value}}
                     </div>
 
-                    <div v-else-if="cell.type === 'list'" class="column-flex">
+                    <div v-else-if="cell.type === 'list'" class="column-flex" style="font-size: 0.9rem">
                         <div v-for="(item, k) in cell.value" class="row-flex" :key="k">
+                            <div>{{++k}}.</div>
                             <div v-for="(val, key, m) in item" :key="m">
-                                {{val}}--
+                                {{val}}-
                             </div>
                         </div>
                     </div>
