@@ -71,7 +71,7 @@
         <create-material-dialog v-if="addMaterialDialog" @close="addMaterialDialog = false"
         :active-section-id="activeSectionId"></create-material-dialog>
 
-        <work-popup v-if="workDialog" @close="workDialog = false"></work-popup>
+        <WorkPopup v-if="workDialog" @close="workDialog = false" :section="activeSectionId"></WorkPopup>
 
     </div>
 </template>

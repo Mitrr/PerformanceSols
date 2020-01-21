@@ -14,11 +14,11 @@
                             <option v-for="(unit,i) in units" :key="i" :value="unit.id">{{unit.name}}</option>
                         </select>
 
-                        <label for="coeffs" style="padding-bottom: 5px">Коэффициенты:</label>
-                        <select id="coeffs" v-model="newMaterial.coefficient_id" required>
-                            <option value="">--Выберите коэффициент--</option>
-                            <option v-for="(coeff, j) in coeffs" :key="j" :value="coeff.id">{{coeff.name}}</option>
-                        </select>
+<!--                        <label for="coeffs" style="padding-bottom: 5px">Коэффициенты:</label>-->
+<!--                        <select id="coeffs" v-model="newMaterial.coefficient_id" required>-->
+<!--                            <option value="">&#45;&#45;Выберите коэффициент&#45;&#45;</option>-->
+<!--                            <option v-for="(coeff, j) in coeffs" :key="j" :value="coeff.id">{{coeff.name}}</option>-->
+<!--                        </select>-->
 
                     </div>
 
