@@ -3,9 +3,10 @@
         <template v-slot:inner>
             <card :header="false" style="height: 100%">
                 <template v-slot:content>
-                    <p style="padding: 20px 0 10px 0; font-size: 1.5rem">Работа</p>
+                    <p class="popup-title">Работа</p>
                     <div class="inputs-group inputs-group_row">
                         <input type="text" class="light-text-input" placeholder="Название" style="width: 30%" v-model="work.name">
+
                         <input type="number" class="light-text-input" placeholder="Цена для клиента" style="width: 30%"
                                v-model="work.price_retail">
                         <input type="number" class="light-text-input" placeholder="Цена для рабочих" style="width: 30%"
@@ -69,6 +70,7 @@
                         <div class="btn" @click="saveWork">СОХРАНИТЬ</div>
                     </div>
                 </template>
+
             </card>
         </template>
     </popup>
@@ -135,7 +137,6 @@
             }
         },
         mounted() {
-
             axios.get('http://api.srvrdev.ru/api/income-parameters?no_table=true').then( res => res.data)
                 .then(data => this.parameters = data);
 
