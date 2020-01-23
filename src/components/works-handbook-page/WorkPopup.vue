@@ -1,7 +1,7 @@
 <template>
     <popup @close="$emit('close')" :width="'60%'" :height="'80vh'">
         <template v-slot:inner>
-            <card :header="false" style="height: 100%">
+            <card :header="false" style="height: 100%;overflow-y: auto">
                 <template v-slot:content>
                     <p class="popup-title">Работа</p>
                     <div class="inputs-group inputs-group_row">
@@ -18,25 +18,45 @@
                                v-model="work.formula_material"
                         >
 
-<!--                        <div style="width: 49%" class="column-flex">-->
-<!--                            <label for="materials" style="padding-bottom: 5px">Единицы измерения:</label>-->
-
-<!--                            <select id="materials" multiple v-model="work.materials" required>-->
-<!--                                <option v-for="material in materials" :key="material.id"-->
-<!--                                        :value="{coefficient_id: material.coefficient_id, material_id: material.id}"-->
-<!--                                >{{material.name}}</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-
-                        <div class="column-flex" style="width: 45%;flex-wrap: wrap;justify-content: space-between;">
-                            <p>Материалы: </p>
-                            <div style="width: 100%;align-items: center" v-for="material in materials" :key="material.id" class="row-flex">
-                                <input type="checkbox" :id="material.id"
-                                       :value="{coefficient_id: material.coefficient_id+'', material_id: material.id+''}"
-                                       v-model="work.materials"
-                                       style="height: auto;margin: 0 5px 0 0">
-                                <label :for="material.id">{{material.name}}</label>
+                        <div class="row-flex" style="width: 100%;justify-content: space-between">
+                            <div class="column-flex" style="width: 47.5%;flex-wrap: wrap;justify-content: space-between;">
+                                <p>Материалы: </p>
+                                <div style="width: 100%;align-items: center" v-for="material in materials" :key="material.id" class="row-flex">
+                                    <input type="checkbox" :id="material.id"
+                                           :value="material"
+                                           v-model="selectedMaterials"
+                                           style="height: auto;margin: 0 5px 0 0">
+                                    <label :for="material.id">{{material.name}}</label>
+                                </div>
                             </div>
+
+                            <div class="vertical-divider"></div>
+
+                            <div class="column-flex" style="width: 47.5%;flex-wrap: wrap;justify-content: space-between;">
+                                <p>Коэффициенты: </p>
+                                <div style="width: 100%;align-items: center" v-for="coeff in coeffs" :key="coeff.id" class="row-flex">
+                                    <input type="radio" :id="coeff.id"
+                                           :value="coeff"
+                                           v-model="selectedCoeff"
+                                           style="height: auto;margin: 0 5px 0 0">
+                                    <label :for="coeff.id">{{coeff.name}}</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="column-flex full-width" style="margin: 10px 0;">
+                            <div class="center-block btn btn-small" @click="linkMaterialNCoeff">СВЯЗАТЬ МАТЕРИАЛ</div>
+                        </div>
+
+                        <div class="column-flex full-width" style="margin: 10px 0 20px 0">
+                            <p>Связанные материалы и коэффициенты: </p>
+                            <div class="full-width column-flex" v-if="work.materials.length>0">
+                                <div v-for="material in work.materials" :key="material.id">
+                                    {{material.material_name}} - {{material.coeff_name}}
+                                </div>
+                            </div>
+                            <div v-else>Нет связей</div>
                         </div>
 
                         <div class="column-flex" style="width: 45%;flex-wrap: wrap;justify-content: space-between;">
@@ -79,8 +99,6 @@
 <script>
     import axios from 'axios';
 
-    import serialize from "../serializeFunc";
-
     export default {
         name: "WorkPopup",
         components:{
@@ -117,9 +135,14 @@
                     formula_material: "",
                     income_parameters: [],
                 },
+
+                selectedMaterials:[],
+                selectedCoeff: null,
+
                 parameters:[],
                 materials: [],
-                units: []
+                units: [],
+                coeffs: [],
             }
         },
         methods:{
@@ -134,6 +157,23 @@
                     income_parameters: serializedParameters,
                     materials: serializedMaterials
                 });
+            },
+
+            linkMaterialNCoeff(){
+                if (this.selectedCoeff !== null && this.selectedMaterials.length > 0){
+                    let newCup = this.selectedMaterials.map( el => {
+                        return {
+                            material_id: el.id,
+                            coefficient_id: this.selectedCoeff.id,
+                            material_name: el.name,
+                            coeff_name: this.selectedCoeff.name
+                        };
+                    });
+                    this.work.materials = this.work.materials.concat(newCup);
+
+                    this.selectedMaterials = [];
+                    this.selectedCoeff = null;
+                }
             }
         },
         mounted() {
@@ -143,6 +183,8 @@
             axios.get('http://api.srvrdev.ru/api/materials?section_id=53&no_table=1').then( res => this.materials = res.data);
 
             axios.get('http://api.srvrdev.ru/api/settings-unit-measurement?no_table=1').then( res => this.units = res.data);
+
+            axios.get('http://api.srvrdev.ru/api/setting-coefficient?no_table=1').then(res => this.coeffs = res.data);
         }
     }
 </script>

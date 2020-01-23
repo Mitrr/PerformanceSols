@@ -6,6 +6,9 @@ $flatactiveblue: rgba(51, 103, 214, 0.2);
     display: flex;
     flex-direction: row;
 }
+.justify-between{
+    justify-content: space-between;
+}
 .card-title{
     color: rgba(0,0,0,0.6);
     font-size: 0.9rem;
@@ -78,6 +81,9 @@ $flatactiveblue: rgba(51, 103, 214, 0.2);
     border-radius: 4px;
     color: white;
 }
+.btn-small{
+    font-size: 0.7rem;
+}
 .btn:hover{
     transition: .3s ease-in-out;
     opacity: .85;
@@ -106,4 +112,16 @@ input:focus{
 .popup-title{
     padding: 20px 0 10px 0;
     font-size: 1.5rem;
+}
+.vertical-divider{
+    height: 100%;
+    width: 1px;
+    background-color: rgba(128, 128, 128, 0.4);
+    content: "";
+}
+.full-width{
+    width: 100%;
+}
+.center-block{
+    margin: 0 auto;
 }
