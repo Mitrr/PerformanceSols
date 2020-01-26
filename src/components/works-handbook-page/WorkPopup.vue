@@ -148,15 +148,19 @@
         methods:{
             saveWork(){
 
-                let serializedParameters = serialize(this.work.income_parameters);
-                let serializedMaterials = serialize(this.work.materials);
+                // let serializedParameters = serialize(this.work.income_parameters);
+                // let serializedMaterials = serialize(this.work.materials);
 
-                axios.post('http://api.srvrdev.ru/api/works',{
-                    ...this.work,
-                    section_id: this.section,
-                    income_parameters: serializedParameters,
-                    materials: serializedMaterials
-                });
+                this.work.section_id = this.section;
+
+                console.log(JSON.stringify(this.work));
+
+                // axios.post('http://api.srvrdev.ru/api/works',{
+                //     ...this.work,
+                //     section_id: this.section,
+                //     income_parameters: serializedParameters,
+                //     materials: serializedMaterials
+                // });
             },
 
             linkMaterialNCoeff(){
@@ -173,6 +177,8 @@
 
                     this.selectedMaterials = [];
                     this.selectedCoeff = null;
+                } else{
+                    alert('Сначала выберите материалы и коэффициент')
                 }
             }
         },

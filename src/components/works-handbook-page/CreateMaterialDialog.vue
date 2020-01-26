@@ -1,5 +1,5 @@
 <template>
-    <popup @close="$emit('close')" :width="'55%'" :height="'50vh'">
+    <popup @close="$emit('close')" :width="'55%'">
         <template v-slot:inner>
 
             <card :header="false" style="height: 100%">
@@ -10,12 +10,6 @@
                                v-model="newMaterial.name" required style="width: 47.5%">
                         <input class="light-text-input" type="number" name="price" placeholder="Цена..."
                                v-model="newMaterial.price" required style="width: 47.5%">
-<!--                        <label for="coeffs" style="padding-bottom: 5px">Коэффициенты:</label>-->
-<!--                        <select id="coeffs" v-model="newMaterial.coefficient_id" required>-->
-<!--                            <option value="">&#45;&#45;Выберите коэффициент&#45;&#45;</option>-->
-<!--                            <option v-for="(coeff, j) in coeffs" :key="j" :value="coeff.id">{{coeff.name}}</option>-->
-<!--                        </select>-->
-
                     </div>
 
                     <div class="inputs-group" style="margin-top: 15px">
@@ -64,7 +58,7 @@
         },
         computed:{
             ...mapState('worksHandbook', [
-                'units','coeffs'
+                'units',
             ]),
             readyToAdding(){
                 return Object.values(this.newMaterial).filter( el => el !== "").length > 0 && this.activeSectionId!==false;

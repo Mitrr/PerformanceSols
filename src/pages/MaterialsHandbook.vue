@@ -64,9 +64,9 @@
             </div>
         </div>
 
-        <EditMatrialPopup v-if="editDialog" @close="editDialog = false" :material="material"
+        <EditMaterialPopup v-if="editDialog" @close="editDialog = false" :material="material"
                           @save="changeMaterial({...$event, section_id: activeSectionId})"
-        ></EditMatrialPopup>
+        ></EditMaterialPopup>
 
         <create-material-dialog v-if="addMaterialDialog" @close="addMaterialDialog = false"
         :active-section-id="activeSectionId"></create-material-dialog>
@@ -87,7 +87,7 @@
             TreeItem,
             CreateMaterialDialog: () => import('../components/works-handbook-page/CreateMaterialDialog'),
             MaterialsTable,
-            EditMatrialPopup: () => import("../components/works-handbook-page/EditMaterialPopup"),
+            EditMaterialPopup: () => import("../components/works-handbook-page/EditMaterialPopup"),
             Table: () => import('@/components/ui/WithDeleteButtonTable'),
             WorkPopup: () => import('@/components/works-handbook-page/WorkPopup')
         },

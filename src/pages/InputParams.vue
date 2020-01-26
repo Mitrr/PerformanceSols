@@ -1,40 +1,49 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div style="height: 100vh">
 
-        <Popup v-if="addCoeffDialog" v-on:close="closeAddCoeff" :width="'50%'">
+        <Popup v-if="addCoeffDialog" @close="closeAddCoeff" :width="'50%'">
         <template v-slot:inner>
             <Card :header="false">
                 <template v-slot:content>
-                    <div style="padding: 15px 0 20px;">Добавление
+                    <p class="popup-title">Добавление
                         {{activeAddPopupMode==='coeff'?'коэффициента':
-                            activeAddPopupMode==='param'?'параметра':'единицы измерения'}}</div>
-                    <div class="inputs-group">
+                            activeAddPopupMode==='param'?'параметра':'единицы измерения'}}
+                    </p>
+                    <div class="inputs-group inputs-group_row">
 <!--                        <input type="text" name="id" placeholder="ID коэффициента..." v-model="coeff.id">-->
-                        <input v-if="activeAddPopupMode==='coeff'" class="node-input"
+                        <input v-if="activeAddPopupMode==='coeff'" class="light-text-input" style="width: 47.5%"
                                type="text" name="name" placeholder="Название коэффициента..." v-model="coeff.name">
-                        <input class="node-input"
-                                v-else-if="activeAddPopupMode==='param'" type="text" name="name" placeholder="Название параметра..." v-model="param.name">
-                        <input class="node-input"
-                                v-else type="text" name="name" placeholder="Единица измерения..." v-model="unit.name">
 
-                        <input class="node-input"
-                                v-if="activeAddPopupMode==='coeff'" type="text" name="value" placeholder="Значение коэффициента..." v-model="coeff.value">
+                        <input class="light-text-input"
+                                v-else-if="activeAddPopupMode==='param'" type="text" name="name" placeholder="Название параметра..."
+                               style="width: 47.5%"
+                                v-model="param.name">
 
+                        <input class="light-text-input"
+                                v-else type="text" name="name" placeholder="Единица измерения..." style="width: 47.5%"
+                                v-model="unit.name">
 
+                        <input class="light-text-input"
+                                v-if="activeAddPopupMode==='coeff'" type="text" name="value" placeholder="Значение коэффициента..."
+                               style="width: 47.5%"
+                                v-model="coeff.value">
+                    </div>
+
+                    <div class="inputs-group">
                         <label v-if="activeAddPopupMode==='param'" for="units" style="padding-bottom: 5px">Единицы измерения:</label>
-                        <select id="units" v-model="param.unit_id" v-if="activeAddPopupMode==='param'">
+                        <select id="units" v-model="param.unit_id" v-if="activeAddPopupMode==='param'" style="width: 50%">
                             <option value="">--Выберите единицы измерения--</option>
                             <option v-for="(unit,i) in unitsTable.data" :key="i" :value="unit[0].value">{{unit[1].value}}</option>
                         </select>
-
                     </div>
+
                     <div @click="addNew(activeAddPopupMode)" class="btn" style="margin-top: 20px">Сохранить</div>
                 </template>
             </Card>
         </template>
     </Popup>
 
-        <popup v-if="editPopup" v-on:close="editPopup=false" :width="'50%'">
+        <popup v-if="editPopup" @close="editPopup=false" :width="'50%'">
             <template v-slot:inner>
                 <Card :header="false">
                     <template v-slot:content>
@@ -90,6 +99,7 @@
                 </template>
             </Card>
         </div>
+
         <div style="margin-top: 20px;width: 100%;display: flex">
             <Card style="width: 50%;">
                 <template v-slot:header>
@@ -161,7 +171,6 @@
 
                 this.$store.dispatch(`inputParams/${commit}`,val);
                 this.addCoeffDialog = false;
-
             },
             editCoeffHandler(row,mode){
                 this.editData.id = row[0].value;
