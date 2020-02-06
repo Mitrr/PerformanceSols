@@ -40,9 +40,10 @@
   color: #2c3e50;
 }
   .content__container{
-    margin-left: 250px;
+    margin-left: 50px;
     padding: 20px;
     background-color: #f3f6f9;
+    position: relative;
   }
   p {
     display: block;

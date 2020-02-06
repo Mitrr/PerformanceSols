@@ -1,15 +1,21 @@
 <template>
     <div class="sidebar_wrapper">
         <div class="sidebar-header_container">
-            <img style="border-radius: 50%;width: 35px;height: 35px" src="../assets/logo.png">
-            <p class="sidebar-title">PerformanceSols</p>
+<!--            <img style="border-radius: 50%;width: 35px;height: 35px" src="../assets/logo.png">-->
+<!--            <p class="sidebar-title">PerformanceSols</p>-->
         </div>
         <div class="sidebar-content__container">
             <div class="list-group" v-for="(item,i) in listLinks" :key="i">
                 <div class="list-group_header" @click="selectItem(item, i)">
-                    <div class="list-item">
+
+                    <div class="icon_wrapper">
+                        <Icon :icon="item.icon" :color="'#f0f0f0'"></Icon>
+                    </div>
+
+                    <div class="list-item" style="">
                         {{item.name}}
                     </div>
+
                 </div>
                 <div v-if="activeMenuItemId === i && item.subItems">
                     <div v-for="(subItem, j) in item.subItems" :key="j" class="list-item list-sub-item"
@@ -33,6 +39,7 @@
                         name:'Справочники',
                         url:null,
                         title:'',
+                        icon: 'library_books',
                         subItems:[
                             {
                                 name:'Входные параметры',
@@ -49,7 +56,8 @@
                     {
                         name:'Добавление работы',
                         title:'Добавление работы',
-                        url:'/add-works'
+                        url:'/add-works',
+                        icon: 'library_books'
                     }
                 ]
             }
@@ -69,10 +77,15 @@
 </script>
 
 <style scoped>
+    .list-item{
+        padding-left: 20px;
+        display: none;
+        transition: 1.5s ease-in;
+        opacity: 0;
+    }
     .sidebar_wrapper{
-        /*width: 20%;*/
-        /*min-width: 200px;*/
-        width: 250px;
+        min-width: 50px;
+        width: 50px;
         height: 100%;
         position: fixed;
         left: 0;
@@ -81,6 +94,15 @@
         background-color: #2e3444;
         box-shadow: 0 0 10px 0 rgba(0,0,0,.5);
         color: whitesmoke;
+        transition: .4s ease;
+    }
+    .sidebar_wrapper:hover{
+        width: 250px;
+
+        .list-item{
+            display: block;
+            opacity: 1;
+        }
     }
     .sidebar-header_container{
         height: 60px;
@@ -118,9 +140,7 @@
         display: flex;
         align-items: center;
     }
-    .list-item{
-        padding-left: 20px;
-    }
+
     .list-group_header:before{
         content: "";
         position: absolute;
@@ -129,7 +149,7 @@
         left: 0;
         right: 0;
         z-index: -1;
-         width: 235px;
+        width: 235px;
         border-radius: 0 100px 100px 0;
         background-color: rgba(0,0,0,.2);
         transform: scaleX(0);
@@ -145,6 +165,9 @@
         padding-left: 40px;
         margin-bottom: 10px;
         cursor: pointer;
+    }
+    .icon_wrapper{
+        padding: 0 10px;
     }
 
 </style>
