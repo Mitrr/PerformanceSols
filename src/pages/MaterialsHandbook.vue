@@ -38,29 +38,37 @@
                                  @edit="openEditMaterial"
                 />
 
-                <card style="flex: 1">
-                    <template v-slot:header>
-                        <p class="card-title">
-                            <span>Работы</span>
-                            <span class="active-blue-color">{{activeNodeSubtitle}}</span>
-                        </p>
-                        <img v-if="worksTableHeaders.length > 0"
-                             @click="workDialog = true"
-                             class="header-img-btn"
-                             src="./../../public/add-to-list.png">
-                    </template>
-                    <template v-slot:content>
-                        <Table v-if="worksTableData.length > 0"
-                               :headers="worksTableHeaders" :data="worksTableData"
-                               :scroll-width-x="1500"
-                        >
-                        </Table>
-                        <div v-else>В этом разделе нет работ</div>
-                    </template>
-                    <template v-slot:footer>
-                        <p class="scrollable-chip" style="margin: 0 auto;margin-bottom: 10px">← →</p>
-                    </template>
-                </card>
+
+                <WorksTable :node-subtitle="activeNodeSubtitle" :active-section-id="activeSectionId"
+                            @openCreate="openCreateWork"
+                            @edit="openEditWork"
+                >
+                </WorksTable>
+
+<!--                <card style="flex: 1">-->
+<!--                    <template v-slot:header>-->
+<!--                        <p class="card-title">-->
+<!--                            <span>Работы</span>-->
+<!--                            <span class="active-blue-color">{{activeNodeSubtitle}}</span>-->
+<!--                        </p>-->
+<!--                        <img v-if="worksTableHeaders.length > 0"-->
+<!--                             @click="workDialog = true"-->
+<!--                             class="header-img-btn"-->
+<!--                             src="./../../public/add-to-list.png">-->
+<!--                    </template>-->
+<!--                    <template v-slot:content>-->
+<!--                        <Table v-if="worksTableData.length > 0"-->
+<!--                               :headers="worksTableHeaders" :data="worksTableData"-->
+<!--                               :scroll-width-x="1500"-->
+<!--                        >-->
+<!--                        </Table>-->
+<!--                        <div v-else>В этом разделе нет работ</div>-->
+<!--                    </template>-->
+<!--                    <template v-slot:footer>-->
+<!--                        <p class="scrollable-chip" style="margin: 0 auto;margin-bottom: 10px">← →</p>-->
+<!--                    </template>-->
+<!--                </card>-->
+
             </div>
         </div>
 
@@ -71,7 +79,10 @@
         <create-material-dialog v-if="addMaterialDialog" @close="addMaterialDialog = false"
         :active-section-id="activeSectionId"></create-material-dialog>
 
-        <WorkPopup v-if="workDialog" @close="workDialog = false" :section="activeSectionId"></WorkPopup>
+        <WorkPopup v-if="workDialog" @close="workDialog = false" :section="activeSectionId"
+                   :item-id="workIdToEdit"
+                   :mode="workPopupMode"
+        ></WorkPopup>
 
     </div>
 </template>
@@ -80,6 +91,7 @@
     import TreeItem from '../components/ui/Trees/TreeItem';
     import {mapActions,mapState} from 'vuex';
     import MaterialsTable from '../components/works-handbook-page/MaterialsTable';
+    import WorkPopup from "../components/works-handbook-page/WorkPopup";
 
     export default {
         name: "MaterialsHandbook",
@@ -88,8 +100,9 @@
             CreateMaterialDialog: () => import('../components/works-handbook-page/CreateMaterialDialog'),
             MaterialsTable,
             EditMaterialPopup: () => import("../components/works-handbook-page/EditMaterialPopup"),
-            Table: () => import('@/components/ui/WithDeleteButtonTable'),
-            WorkPopup: () => import('@/components/works-handbook-page/WorkPopup')
+            WorkPopup,
+            // WorkPopup: () => import('@/components/works-handbook-page/WorkPopup'),
+            WorksTable: () => import("@/components/works-handbook-page/WorksTable"),
         },
         data(){
             return{
@@ -114,7 +127,10 @@
                     section_id: "",
                     rowId:""
                 },
+
                 workDialog: false,
+                workPopupMode: 'create',
+                workIdToEdit: null
             }
         },
         computed:{
@@ -199,6 +215,16 @@
                 this.material.rowId = tableRow[0].rowId;
                 this.editDialog = true;
             },
+            openEditWork(id){
+                this.workPopupMode = 'edit';
+                this.workIdToEdit = id;
+                this.workDialog = true;
+            },
+            openCreateWork(){
+                this.workPopupMode = 'create';
+                this.workIdToEdit = null;
+                this.workDialog = true;
+            }
         },
         mounted() {
             this.$store.dispatch('worksHandbook/loadTreeData');

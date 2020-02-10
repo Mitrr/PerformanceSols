@@ -45,7 +45,10 @@ const mutations = {
     setWorks(state, payload){
         state.worksTable.data = payload.data;
         state.worksTable.headers = payload.headers;
-    }
+    },
+    deleteWork(state, id){
+        state.worksTable.data = state.worksTable.data.filter(item => item[0].value !== id);
+    },
 };
 
 const actions = {
@@ -109,6 +112,26 @@ const actions = {
     loadCoeffsList({commit}){
         axios.get('http://api.srvrdev.ru/api/setting-coefficient?no_table=true').then( res => res.data )
             .then( data => commit('setCoeffs', data) )
+    },
+
+    deleteWork(context,id){
+        context.dispatch('showAlert','Вы уверены, что хотите удалить этот элемент?',{root:true})
+            .then(res => {
+                if (res){
+                    axios.delete('http://api.srvrdev.ru/api/works/'+id).then( () => {
+                        context.commit('deleteWork',id);
+                    });
+                }
+            });
+    },
+
+    editWork(context, work){
+        axios.put('http://api.srvrdev.ru/api/works/'+work.id, work).then( () => {
+            context.dispatch('loadTable',{
+                url:`http://api.srvrdev.ru/api/works?section_id=${work.section_id}`,
+                commitName:'worksHandbook/setWorks'
+            },{root:true})
+        });
     }
 };
 

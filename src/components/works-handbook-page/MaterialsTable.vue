@@ -29,8 +29,8 @@
             Table: () => import('@/components/ui/WithDeleteButtonTable')
         },
         props:{
-          nodeSubtitle:String,
-          activeSectionId:[String,Number],
+          nodeSubtitle: String,
+          activeSectionId: [String, Number],
         },
         computed:{
             activeMaterials(){
@@ -45,7 +45,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

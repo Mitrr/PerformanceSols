@@ -53,12 +53,12 @@
                             },
                         ]
                     },
-                    {
-                        name:'Добавление работы',
-                        title:'Добавление работы',
-                        url:'/add-works',
-                        icon: 'library_books'
-                    }
+                    // {
+                    //     name:'Добавление работы',
+                    //     title:'Добавление работы',
+                    //     url:'/add-works',
+                    //     icon: 'library_books'
+                    // }
                 ]
             }
         },

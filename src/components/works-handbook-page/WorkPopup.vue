@@ -106,25 +106,19 @@
         },
         props:{
             section: [String, Number],
-            id: [String, Number]
-            // item:{
-            //     type: Object,
-            //     default: {
-            //         name: "Монтаж навесного щита",
-            //         section_id: 0,
-            //         price_retail: "1000.50",
-            //         measurement_id: "2",
-            //         price_for_workers: "700.50",
-            //         materials: [],
-            //         formula_work: "",
-            //         formula_material: "",
-            //         income_parameters: []
-            //     }
-            // }
+            itemId: {
+                type: [String, Number],
+                default: null
+            },
+            mode:{
+                type: String,
+                default:'create' //create,edit
+            }
         },
         data(){
             return{
                 work:{
+                    id:null,
                     name: "",
                     section_id: 0,
                     price_retail: "",
@@ -147,20 +141,26 @@
         },
         methods:{
             saveWork(){
-
-                // let serializedParameters = serialize(this.work.income_parameters);
-                // let serializedMaterials = serialize(this.work.materials);
-
                 this.work.section_id = this.section;
 
-                console.log(JSON.stringify(this.work));
+                let vm = this;
 
-                // axios.post('http://api.srvrdev.ru/api/works',{
-                //     ...this.work,
-                //     section_id: this.section,
-                //     income_parameters: serializedParameters,
-                //     materials: serializedMaterials
-                // });
+                if (this.mode === 'edit'){
+                    this.$store.dispatch('worksHandbook/editWork', {
+                        ...this.work,
+                        materials: JSON.stringify(vm.work.materials),
+                        income_parameters: JSON.stringify(vm.work.income_parameters)
+                    });
+                }else {
+                    axios.post('http://api.srvrdev.ru/api/works',{
+                        ...this.work,
+                        materials: JSON.stringify(vm.work.materials),
+                        section_id: vm.section,
+                        income_parameters: JSON.stringify(vm.work.income_parameters)
+                    });
+                }
+
+                this.$emit('close')
             },
 
             linkMaterialNCoeff(){
@@ -180,7 +180,7 @@
                 } else{
                     alert('Сначала выберите материалы и коэффициент')
                 }
-            }
+            },
         },
         mounted() {
             axios.get('http://api.srvrdev.ru/api/income-parameters?no_table=true').then( res => res.data)
@@ -191,6 +191,15 @@
             axios.get('http://api.srvrdev.ru/api/settings-unit-measurement?no_table=1').then( res => this.units = res.data);
 
             axios.get('http://api.srvrdev.ru/api/setting-coefficient?no_table=1').then(res => this.coeffs = res.data);
+
+            if (this.mode === 'edit'){
+                axios.get('http://api.srvrdev.ru/api/works/'+this.itemId).then(res => res.data).then( work => {
+                    work.materials = JSON.parse(work.materials);
+                    work.income_parameters = JSON.parse(work.income_parameters);
+
+                    this.work = work;
+                })
+            }
         }
     }
 </script>
