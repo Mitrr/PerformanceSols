@@ -21,7 +21,8 @@
                         <div class="row-flex" style="width: 100%;justify-content: space-between">
                             <div class="column-flex" style="width: 47.5%;flex-wrap: wrap;justify-content: space-between;">
                                 <p>Материалы: </p>
-                                <div style="width: 100%;align-items: center" v-for="material in materials" :key="material.id" class="row-flex">
+                                <div style="width: 100%;align-items: center" v-for="material in materials" :key="material.id"
+                                     class="row-flex">
                                     <input type="checkbox" :id="material.id"
                                            :value="material"
                                            v-model="selectedMaterials"
@@ -52,8 +53,12 @@
                         <div class="column-flex full-width" style="margin: 10px 0 20px 0">
                             <p>Связанные материалы и коэффициенты: </p>
                             <div class="full-width column-flex" v-if="work.materials.length>0">
-                                <div v-for="material in work.materials" :key="material.id">
-                                    {{material.material_name}} - {{material.coeff_name}}
+                                <div v-for="(material,i) in work.materials" :key="material.id"
+                                     class="row-flex justify-between coeff-material-link"
+                                     style="width: 80%">
+                                    <div>{{material.material_name}} - {{material.coeff_name}}</div>
+                                    <div v-if="mode==='edit'"
+                                         class="delete-cross" @click="breakMaterialLink(i)">х</div>
                                 </div>
                             </div>
                             <div v-else>Нет связей</div>
@@ -181,6 +186,9 @@
                     alert('Сначала выберите материалы и коэффициент')
                 }
             },
+            breakMaterialLink(index){
+                this.work.materials.splice(index,1);
+            }
         },
         mounted() {
             axios.get('http://api.srvrdev.ru/api/income-parameters?no_table=true').then( res => res.data)
@@ -194,9 +202,9 @@
 
             if (this.mode === 'edit'){
                 axios.get('http://api.srvrdev.ru/api/works/'+this.itemId).then(res => res.data).then( work => {
-                    work.materials = JSON.parse(work.materials);
-                    work.income_parameters = JSON.parse(work.income_parameters);
-
+                    // work.materials = JSON.parse(work.materials);
+                    // work.income_parameters = JSON.parse(work.income_parameters);
+                    //console.log(work);
                     this.work = work;
                 })
             }
@@ -205,5 +213,21 @@
 </script>
 
 <style scoped>
-
+    .delete-cross{
+        opacity: .8;
+        color: white;
+        cursor: pointer;
+        padding: 2px 5px;
+        border-radius: 4px;
+        background-color: #3266d6;
+        line-height: 1;
+    }
+    .delete-cross:hover{
+        opacity: 1;
+        transition: .3s ease;
+    }
+    .coeff-material-link{
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.21);
+    }
 </style>

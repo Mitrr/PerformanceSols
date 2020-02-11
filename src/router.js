@@ -15,12 +15,7 @@ export default new Router({
         {
             path: '/materials',
             name: 'materials',
-            component:() => import('./pages/MaterialsHandbook'),
+            component: () => import('./pages/MaterialsHandbook'),
         },
-        {
-            path:'/add-works',
-            name:'add-works',
-            component:() => import('./pages/AddWork')
-        }
     ]
 })
