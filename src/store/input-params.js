@@ -22,7 +22,7 @@ const mutations = {
     addCoeff(state,paylaod){
         state.coeffTable.data.push(paylaod);
     },
-    saveParamsTable(state,payload){
+    saveParamsTable(state, payload){
         state.paramsTable.data = payload.data;
         state.paramsTable.headers = payload.headers;
     },
@@ -58,7 +58,7 @@ const actions = {
     deleteParam(context,id){
        axios.delete('http://api.srvrdev.ru/api/income-parameters/'+id).then( () => {
            context.dispatch('loadTable',{
-               commitName:'saveParamsTable',
+               commitName:'inputParams/saveParamsTable',
                url:'http://api.srvrdev.ru/api/income-parameters'
            },{root:true})
        })

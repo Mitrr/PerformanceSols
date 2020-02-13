@@ -202,9 +202,6 @@
 
             if (this.mode === 'edit'){
                 axios.get('http://api.srvrdev.ru/api/works/'+this.itemId).then(res => res.data).then( work => {
-                    // work.materials = JSON.parse(work.materials);
-                    // work.income_parameters = JSON.parse(work.income_parameters);
-                    //console.log(work);
                     this.work = work;
                 })
             }

@@ -25,7 +25,7 @@
 
                         <input class="light-text-input"
                                 v-if="activeAddPopupMode==='coeff'" type="text" name="value" placeholder="Значение коэффициента..."
-                               style="width: 47.5%"
+                                style="width: 47.5%"
                                 v-model="coeff.value">
                     </div>
 
@@ -150,7 +150,7 @@
                     name:''
                 },
                 mode:'',
-                activeAddPopupMode:'param',//param | coeff | units
+                activeAddPopupMode:'param', //param | coeff | units
             }
         },
         computed:{
@@ -237,7 +237,8 @@
 
     .btn{
         padding: 10px 15px;
-        background-color: #dddddd;
+        /*background-color: #dddddd;*/
+        background-color: #3266d6;
         border-radius: 4px;
         cursor: pointer;
         width: fit-content;
