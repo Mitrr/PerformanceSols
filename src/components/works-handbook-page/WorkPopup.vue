@@ -46,7 +46,7 @@
 
                         </div>
 
-                        <div class="column-flex full-width" style="margin: 10px 0;">
+                        <div class="column-flex full-width" style="margin: 20px 0 0 10px;">
                             <div class="center-block btn btn-small" @click="linkMaterialNCoeff">СВЯЗАТЬ МАТЕРИАЛ</div>
                         </div>
 
@@ -194,7 +194,8 @@
             axios.get('http://api.srvrdev.ru/api/income-parameters?no_table=true').then( res => res.data)
                 .then(data => this.parameters = data);
 
-            axios.get('http://api.srvrdev.ru/api/materials?section_id=53&no_table=1').then( res => this.materials = res.data);
+            axios.get(`http://api.srvrdev.ru/api/materials?section_id=${this.section}&no_table=1`)
+                .then( res => this.materials = res.data);
 
             axios.get('http://api.srvrdev.ru/api/settings-unit-measurement?no_table=1').then( res => this.units = res.data);
 
